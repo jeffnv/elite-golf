@@ -5,10 +5,19 @@
 <body>
     <canvas width="500" height="500"></canvas>
     <link rel='stylesheet' link='style.css' type="text/css">
+    <script src="game_item.js"></script>
     <script src="elite_golf.js"></script>
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
-        new Golf(canvas).run();
+        var g = new Golf(canvas);
+        g.run();
+        var lData = {
+          ballLoc: {x: 20, y: 20}, 
+          holeLoc: {x:100, y: 100}
+        }
+        var l = new Level(lData);
+        g.playLevel(l);
+
     </script>
 </body>
 <style type="text/css" media="all">
