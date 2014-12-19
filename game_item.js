@@ -1,14 +1,29 @@
-GameItem = function(options){
-  this.properties = {}.extend(options);
+GameItem = function(options) {
+    this.properties = {}.extend(options);
 }
 
-GameItem.prototype.tick = function(ctx){
-  if(this.subItems){
-    this.subItems.forEach(function(item){ item.tick(ctx)});
-  }
-  this.move && this.move();
-  this.render(ctx);
+GameItem.drawCircle = function(context, options) {
+    context.beginPath();
+    context.arc(
+        options.centerX,
+        options.centerY,
+        options.radius,
+        0,
+        2 * Math.PI,
+        false
+    );
+    context.fillStyle = options.color;
+    context.fill();
 }
 
-GameItem.prototype.render = function(ctx){
+GameItem.prototype.tick = function(ctx) {
+    if (this.subItems) {
+        this.subItems.forEach(function(item) {
+            item.tick(ctx)
+        });
+    }
+    this.move && this.move();
+    this.render(ctx);
 }
+
+GameItem.prototype.render = function(ctx) {}

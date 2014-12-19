@@ -36,14 +36,12 @@ function Ball(loc){
 Ball.prototype = Object.create(GameItem.prototype);
 
 Ball.prototype.render = function(context){
-  var centerX = canvas.width / 2;
-  var centerY = canvas.height / 2;
-  var radius = 20;
-
-  context.beginPath();
-  context.arc(this.loc.x, this.loc.y, radius, 0, 2 * Math.PI, false);
-  context.fillStyle = 'white';
-  context.fill();
+  GameItem.drawCircle(context, {
+    color: 'white', 
+    radius: 5,
+    centerX: this.loc.x,
+    centerY: this.loc.y
+  });
 }
 
 
@@ -54,14 +52,12 @@ function Hole(loc){
 Hole.prototype = Object.create(GameItem.prototype);
 
 Hole.prototype.render = function(context){
-  var centerX = canvas.width / 2;
-  var centerY = canvas.height / 2;
-  var radius = 20;
-
-  context.beginPath();
-  context.arc(this.loc.x, this.loc.y, radius, 0, 2 * Math.PI, false);
-  context.fillStyle = 'black';
-  context.fill();
+  GameItem.drawCircle(context, {
+    color: 'black',
+    radius: 10,
+    centerX: this.loc.x,
+    centerY: this.loc.y
+  });
 }
 
 
