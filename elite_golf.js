@@ -6,11 +6,10 @@ function Golf(canvas) {
 }
 
 Golf.prototype.run = function(canvas) {
-    this.ctx.fillStyle = 'green';
-    this.ctx.fillRect(0, 0, this.width, this.height);
     this.registerEvents(canvas);
-    setInterval(this.tick.bind(this), 100);
+    setInterval(this.tick.bind(this), 25);
 }
+
 Golf.prototype.registerEvents = function() {
     canvas.addEventListener(
         'mousedown',
@@ -53,14 +52,19 @@ Golf.prototype.playLevel = function(level) {
     this.level = level;
 }
 
-function Level(data) {
+function Level(data, dimX, dimY) {
     this.ball = new Ball(data.ballLoc);
     this.hole = new Hole(data.holeLoc);
+    this.dimX = dimX;
+    this.dimY = dimY;
     this.subItems = [this.ball, this.hole];
 }
 Level.prototype = Object.create(GameItem.prototype);
 
-Level.prototype.render = function(ctx) {}
+Level.prototype.render = function(ctx) {
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, 0, this.dimX, this.dimY);
+}
 
 Level.prototype.hitBall = function(start, end){
   var dy = end.y - start.y;
@@ -70,7 +74,6 @@ Level.prototype.hitBall = function(start, end){
   var nX = dx / force;
   this.ball.hit(force, nX, nY);
 }
-
 
 function Ball(loc) {
     this.loc = loc;
