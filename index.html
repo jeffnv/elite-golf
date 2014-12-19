@@ -7,16 +7,12 @@
     <link rel='stylesheet' link='style.css' type="text/css">
     <script src="game_item.js"></script>
     <script src="elite_golf.js"></script>
+    <script src="levels.js"></script>
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
         var g = new Golf(canvas);
         g.run();
-        var lData = {
-          ballLoc: {x: 20, y: 20}, 
-          holeLoc: {x:100, y: 100}
-        }
-        var l = new Level(lData);
-        g.playLevel(l);
+        g.playLevel(new Level(emptyLevel));
 
     </script>
 </body>
