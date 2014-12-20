@@ -19,11 +19,8 @@ Wall.prototype.nearWall = function(point){
   var distToStart = GolfMath.distBtwPoints(this.start, point);
   var distToEnd = GolfMath.distBtwPoints(this.end, point);
   var nearNess = Math.abs(distToStart + distToEnd - wallLength);
-  console.log('d start: ' + distToStart);
-  console.log('d end: ' + distToEnd);
   //the lower the nearNess, the closer to the wall the point is
   //magic number alert: 2 is close enough to consider it a hit
-  console.log(nearNess);
   return nearNess < 2;
 }
 
