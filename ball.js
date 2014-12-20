@@ -10,7 +10,7 @@ function Ball(loc, level) {
 Ball.prototype = Object.create(GameItem.prototype);
 
 Ball.prototype.render = function(context) {
-    GameItem.drawCircle(context, {
+    GolfDraw.drawCircle(context, {
         color: 'white',
         radius: 5,
         centerX: this.loc.x,

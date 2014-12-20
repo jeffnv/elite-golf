@@ -1,9 +1,11 @@
 function Level(data, dimX, dimY) {
     this.ball = new Ball(data.ballLoc, this);
     this.hole = new Hole(data.holeLoc);
+    this.walls = Wall.initArray(data.walls);
     this.dimX = dimX;
     this.dimY = dimY;
     this.subItems = [this.ball, this.hole];
+    this.subItems = this.subItems.concat(this.walls);
 }
 Level.prototype = Object.create(GameItem.prototype);
 
@@ -11,10 +13,12 @@ Level.prototype.render = function(ctx) {
     ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, this.dimX, this.dimY);
     if (this.vector) {
-        ctx.beginPath();
-        ctx.moveTo(this.vector.start.x, this.vector.start.y);
-        ctx.lineTo(this.vector.end.x, this.vector.end.y);
-        ctx.stroke();
+        GameItem.drawLine(ctx, {
+            color: 'white',
+            width: 2,
+            start: this.vector.start,
+            end: this.vector.end
+        })
     }
 }
 
