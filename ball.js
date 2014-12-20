@@ -26,10 +26,9 @@ Ball.prototype.hit = function(force, direction) {
     };
 }
 Ball.prototype.move = function() {
-    var offsetY = Math.sin(this.velocity.direction) * this.velocity.magnitude;
-    var offsetX = Math.cos(this.velocity.direction) * this.velocity.magnitude;
-    this.loc.x -= offsetX;
-    this.loc.y -= offsetY;
+    var offsets = GolfMath.offsetsFromVector(this.velocity);
+    this.loc.x -= offsets.dx;
+    this.loc.y -= offsets.dy;
     this.applyFriction();
 }
 

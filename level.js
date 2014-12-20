@@ -10,51 +10,37 @@ Level.prototype = Object.create(GameItem.prototype);
 Level.prototype.render = function(ctx) {
     ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, this.dimX, this.dimY);
-    if (this.vector){
-      ctx.beginPath();
-      ctx.moveTo(this.vector.start.x, this.vector.start.y);
-      ctx.lineTo(this.vector.end.x, this.vector.end.y);
-      ctx.stroke();
+    if (this.vector) {
+        ctx.beginPath();
+        ctx.moveTo(this.vector.start.x, this.vector.start.y);
+        ctx.lineTo(this.vector.end.x, this.vector.end.y);
+        ctx.stroke();
     }
 }
 
-Level.prototype.hitBall = function(start, end){
-  if(this.vector){
-    //only display swing vector before ball is hit
-    delete this.vector;
-  }
-  var vel = Level.vectorizeCoords(start, end);
-  this.ball.hit(vel.magnitude, vel.direction);
+Level.prototype.hitBall = function(hitVector) {
+    if (this.vector) {
+        //only display swing vector before ball is hit
+        delete this.vector;
+    }
+    this.ball.hit(hitVector.magnitude, hitVector.direction);
 }
 
-Level.vectorizeCoords = function(start, end){
-  var dy = end.y - start.y;
-  var dx = end.x - start.x;
-  var force = Math.sqrt(dy * dy + dx * dx);
-  var direction = Math.atan2(dy, dx);
-  return {magnitude: force, direction: direction};
+Level.prototype.frictionAtLoc = function(pos) {
+    //arbitrary value
+    //intend to figure friction at location and return that
+    return 0.03;
 }
 
-Level.prototype.frictionAtLoc = function(pos){
-  //arbitrary value
-  return 0.03;
-}
 
-// ctx.save();
-// ctx.moveTo(pos) // position of the ball
-// ctx.rotate(rads) // where rads is the angle between the ball and the
-// mouse
-// ctx.fillRect(p1, p2, p3, p4) // dimensions of your rectangle
-// ctx.restore();
-
-Level.prototype.drawVector = function(start, end){
-  var vec = Level.vectorizeCoords(start, end);
-  var ballX = this.ball.loc.x;
-  var ballY = this.ball.loc.y;
-  var endX = ballX + (Math.cos(vec.direction) * vec.magnitude);
-  var endY = ballY + (Math.sin(vec.direction) * vec.magnitude);
-  this.vector = {
-    start: this.ball.loc,
-    end: { x: endX, y: endY }
-  }
+Level.prototype.drawVector = function(vec) {
+    var offsets = GolfMath.offsetsFromVector(vec);
+    var start = this.ball.loc;
+    this.vector = {
+        start: start,
+        end: {
+            x: start.x + offsets.dx,
+            y: start.x + offsets.dy
+        }
+    }
 }

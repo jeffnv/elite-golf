@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <title>Elite Golf</title>
-</head>
-
-<body>
-    <canvas width="500" height="500"></canvas>
+    <link rel="SHORTCUT ICON" href="favicon.png">
     <link rel='stylesheet' link='style.css' type="text/css">
     <script src="game_item.js"></script>
     <script src="elite_golf.js"></script>
@@ -11,12 +8,16 @@
     <script src="hole.js"></script>
     <script src="level.js"></script>
     <script src="ball.js"></script>
+    <script src="golf_math.js"></script>
+</head>
+
+<body>
+    <canvas width="500" height="500"></canvas>
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
         var g = new Golf(canvas);
         g.run();
         g.playLevel(new Level(emptyLevel, 500, 500));
-
     </script>
 </body>
 <style type="text/css" media="all">

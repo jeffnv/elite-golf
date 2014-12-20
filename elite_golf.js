@@ -54,11 +54,12 @@ Golf.prototype.handleMouseDown = function(event) {
 }
 
 Golf.prototype.drawVector = function(start, end) {
-  this.level && this.level.drawVector(start, end);
-  
+  var vector = GolfMath.vectorizeCoords(start, end);
+  this.level && this.level.drawVector(vector);
 }
 Golf.prototype.handleRelease = function(clickStart, clickEnd) {
-    this.level && this.level.hitBall(clickStart, clickEnd);
+    var vector = GolfMath.vectorizeCoords(clickStart, clickEnd);
+    this.level && this.level.hitBall(vector);
 }
 
 Golf.prototype.tick = function() {
@@ -68,4 +69,3 @@ Golf.prototype.tick = function() {
 Golf.prototype.playLevel = function(level) {
     this.level = level;
 }
-
