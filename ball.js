@@ -30,6 +30,18 @@ Ball.prototype.move = function() {
     this.loc.x -= offsets.dx;
     this.loc.y -= offsets.dy;
     this.applyFriction();
+    this.processCollisions();
+}
+
+Ball.prototype.processCollisions = function() {
+  var ball = this;
+    this.level.walls.forEach(function(wall) {
+      //figure out if ball is in colision with wall
+      //if so figure out new velocity
+      if(wall.nearWall(ball.loc)){
+        console.log('hit a wall!');
+      }
+    });
 }
 
 Ball.prototype.applyFriction = function(vel) {

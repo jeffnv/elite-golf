@@ -14,6 +14,24 @@ Wall.initArray = function(wallData) {
 }
 Wall.prototype = Object.create(GameItem.prototype);
 
+Wall.prototype.nearWall = function(point){
+  var wallLength = GolfMath.distBtwPoints(this.start, this.end);
+  var distToStart = GolfMath.distBtwPoints(this.start, point);
+  var distToEnd = GolfMath.distBtwPoints(this.end, point);
+  var nearNess = Math.abs(distToStart + distToEnd - wallLength);
+  console.log('d start: ' + distToStart);
+  console.log('d end: ' + distToEnd);
+  //the lower the nearNess, the closer to the wall the point is
+  //magic number alert: 2 is close enough to consider it a hit
+  console.log(nearNess);
+  return nearNess < 2;
+}
+
 Wall.prototype.render = function(context) {
-  GolfDraw.drawLine(context, {color: 'brown', width: 5, start: this.start, end: this.end});
+    GolfDraw.drawLine(context, {
+        color: 'brown',
+        width: 5,
+        start: this.start,
+        end: this.end
+    });
 }
