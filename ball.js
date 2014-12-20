@@ -40,6 +40,8 @@ Ball.prototype.processCollisions = function() {
       //if so figure out new velocity
       if(wall.nearWall(ball.loc)){
         console.log('hit a wall!');
+        //THIS ONLY WORKS FOR HORIZONTAL WALLS
+        ball.velocity.direction *= -1;
       }
     });
 }

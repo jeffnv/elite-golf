@@ -16,5 +16,14 @@ window.emptyLevel = {
             x: 500,
             y: 100
         }
+    }, {
+        start: {
+            x: 100,
+            y: 100
+        },
+        end: {
+            x: 100,
+            y: 500
+        }
     }]
 }
