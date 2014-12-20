@@ -13,8 +13,8 @@ Level.prototype.render = function(ctx) {
     ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, this.dimX, this.dimY);
     if (this.vector) {
-        GameItem.drawLine(ctx, {
-            color: 'white',
+        GolfDraw.drawLine(ctx, {
+            color: 'orange',
             width: 2,
             start: this.vector.start,
             end: this.vector.end
