@@ -25,22 +25,39 @@ Golf.prototype.handleMouseDown = function(event) {
     };
     var that = this;
 
+    function dragHandler(event) {
+        var currentPos = {
+            x: event.x,
+            y: event.y
+        };
+        that.drawVector(clickStart, currentPos);
+    }
     function releaseHandler(event) {
         var clickEnd = {
             x: event.x,
             y: event.y
         };
         that.canvas.removeEventListener('mouseup', releaseHandler);
-        that.handleDrag(clickStart, clickEnd);
+        that.canvas.removeEventListener('mousemove', dragHandler );
+        that.handleRelease(clickStart, clickEnd);
     };
     this.canvas.addEventListener(
         'mouseup',
         releaseHandler,
         false
     );
+    this.canvas.addEventListener(
+        'mousemove',
+        dragHandler,
+        false
+    );
 }
 
-Golf.prototype.handleDrag = function(clickStart, clickEnd) {
+Golf.prototype.drawVector = function(start, end) {
+  this.level && this.level.drawVector(start, end);
+  
+}
+Golf.prototype.handleRelease = function(clickStart, clickEnd) {
     this.level && this.level.hitBall(clickStart, clickEnd);
 }
 
