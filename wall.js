@@ -12,7 +12,11 @@ Wall.initArray = function(wallData) {
     }
     return walls;
 }
+
 Wall.prototype = Object.create(GameItem.prototype);
+Wall.prototype.wallAngle = function(){
+  return GolfMath.vectorizeCoords(this.start, this.end).direction;
+}
 
 Wall.prototype.nearWall = function(point){
   var wallLength = GolfMath.distBtwPoints(this.start, this.end);

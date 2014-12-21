@@ -1,6 +1,6 @@
 window.emptyLevel = {
     ballLoc: {
-        x: 400,
+        x: 200,
         y: 400
     },
     holeLoc: {
@@ -24,6 +24,15 @@ window.emptyLevel = {
         end: {
             x: 100,
             y: 500
+        }
+    }, {
+        start: {
+            x: 150,
+            y: 150
+        },
+        end: {
+            x: 400,
+            y: 400
         }
     }]
 }

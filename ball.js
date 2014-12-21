@@ -39,9 +39,19 @@ Ball.prototype.processCollisions = function() {
       //figure out if ball is in colision with wall
       //if so figure out new velocity
       if(wall.nearWall(ball.loc)){
-        console.log('hit a wall!');
+        console.log('ball angle: ' + ball.velocity.direction);
+        var wallAngle = wall.wallAngle();
         //THIS ONLY WORKS FOR HORIZONTAL WALLS
         ball.velocity.direction *= -1;
+        ball.velocity.direction += 2 * wallAngle
+        console.log("wall angle: " + wallAngle);
+
+        //ball.velocity.direction += Math.PI - 2 *  ball.velocity.direction;
+        ball.velocity.direction += 2 * Math.PI;
+        ball.velocity.direction = ball.velocity.direction % (2 * Math.PI);
+        console.log('ball angle: ' + ball.velocity.direction);
+
+        //ball.velocity.direction += wallAngle;
       }
     });
 }
