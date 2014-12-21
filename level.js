@@ -44,8 +44,8 @@ Level.prototype.drawVector = function(vec) {
     this.vector = {
         start: start,
         end: {
-            x: start.x + offsets.dx,
-            y: start.y + offsets.dy
+            x: start.x + offsets.x,
+            y: start.y + offsets.y
         }
     }
 }
