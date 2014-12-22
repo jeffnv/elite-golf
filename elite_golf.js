@@ -60,6 +60,8 @@ Golf.prototype.drawVector = function(start, end) {
 }
 Golf.prototype.handleRelease = function(clickStart, clickEnd) {
     var vector = GolfMath.vectorizeCoords(clickStart, clickEnd);
+    //want to hit ball in opposite direction from the drag
+    vector.direction = (vector.direction + Math.PI) % (2 * Math.PI);
     this.level && this.level.hitBall(vector);
 }
 

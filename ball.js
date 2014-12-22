@@ -18,8 +18,8 @@ Ball.prototype.render = function(context) {
     });
     var offsets = GolfMath.offsetsFromVector(this.velocity);
     var vEnd = {
-        x: this.loc.x - offsets.x * 50,
-        y: this.loc.y - offsets.y * 50
+        x: this.loc.x + offsets.x * 50,
+        y: this.loc.y + offsets.y * 50
     };
     GolfDraw.drawLine(context, {
         color: 'white',
@@ -38,8 +38,8 @@ Ball.prototype.hit = function(force, direction) {
 }
 Ball.prototype.move = function() {
     var offsets = GolfMath.offsetsFromVector(this.velocity);
-    this.loc.x -= offsets.x;
-    this.loc.y -= offsets.y;
+    this.loc.x += offsets.x;
+    this.loc.y += offsets.y;
     this.applyFriction();
     this.processCollisions();
 }
