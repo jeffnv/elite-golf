@@ -16,6 +16,17 @@ Ball.prototype.render = function(context) {
         centerX: this.loc.x,
         centerY: this.loc.y
     });
+    var offsets = GolfMath.offsetsFromVector(this.velocity);
+    var vEnd = {
+        x: this.loc.x - offsets.x * 50,
+        y: this.loc.y - offsets.y * 50
+    };
+    GolfDraw.drawLine(context, {
+        color: 'white',
+        width: 2,
+        start: this.loc,
+        end: vEnd
+    })
 }
 
 Ball.prototype.hit = function(force, direction) {
@@ -34,26 +45,26 @@ Ball.prototype.move = function() {
 }
 
 Ball.prototype.processCollisions = function() {
-  var ball = this;
+    var ball = this;
     this.level.walls.forEach(function(wall) {
-      //figure out if ball is in colision with wall
-      //if so figure out new velocity
-      if(wall.nearWall(ball.loc)){
-        console.log('ball angle: ' + ball.velocity.direction);
-        var wallVec = GolfMath.vectorizeCoords(wall.start, wall.end);
-        var wallOffsets = GolfMath.offsetsFromVector(wallVec);
-        var wallNormal = GolfMath.normal(wallOffsets);
-        var ballVec = GolfMath.offsetsFromVector(ball.velocity);
-        var n1 = GolfMath.dotProduct(ballVec, wallNormal) * 2;
-        var nv = {x: wallNormal.x * n1, y: wallNormal.y * n1};
-        var newVec = {x: nv.x - ballVec.x, y: nv.y - ballVec.y};
-        ball.velocity.direction = Math.atan2(newVec.x, newVec.y);
-
-        //ball.velocity.direction += Math.PI - 2 *  ball.velocity.direction;
-        console.log('ball angle: ' + ball.velocity.direction);
-
-        //ball.velocity.direction += wallAngle;
-      }
+        if (wall.nearWall(ball.loc)) {
+            console.log('ball angle: ' + ball.velocity.direction);
+            var wallVec = GolfMath.vectorizeCoords(wall.start, wall.end);
+            var wallOffsets = GolfMath.offsetsFromVector(wallVec);
+            var wallNormal = GolfMath.normal(wallOffsets);
+            var ballVec = GolfMath.offsetsFromVector(ball.velocity);
+            var n1 = GolfMath.dotProduct(ballVec, wallNormal) * 2;
+            var nv = {
+                x: wallNormal.x * n1,
+                y: wallNormal.y * n1
+            };
+            var newVec = {
+                x: nv.x - ballVec.x,
+                y: nv.y - ballVec.y
+            };
+            ball.velocity.direction = Math.atan2(newVec.x, newVec.y);
+            console.log('ball direction: ' + ball.velocity.direction);
+        }
     });
 }
 

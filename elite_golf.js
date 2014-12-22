@@ -1,3 +1,4 @@
+FPS = 60 
 function Golf(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
@@ -7,7 +8,7 @@ function Golf(canvas) {
 
 Golf.prototype.run = function(canvas) {
     this.registerEvents(canvas);
-    setInterval(this.tick.bind(this), 25);
+    setInterval(this.tick.bind(this), 1000/FPS);
 }
 
 Golf.prototype.registerEvents = function() {
