@@ -42,11 +42,14 @@ Ball.prototype.processCollisions = function() {
     var ball = this;
     this.level.walls.forEach(function(wall) {
         if (wall.nearWall(ball.loc)) {
-          console.log("collision at " + ball.loc.x + ",  " + ball.loc.y);
-            var wallVec = Vector.fromCoords(wall.start, wall.end);
-            var incAngle = ball.velocity.direction - wallVec.direction;
-            var newAngle = 2 * (wallVec.direction) - ball.velocity.direction;
-            ball.velocity = new Vector(ball.velocity.magnitude, newAngle);
+            console.log("collision at " + ball.loc.x + ",  " + ball.loc.y);
+            var wallAngle = Vector.fromCoords(wall.start, wall.end).direction;
+            var ballAngle = ball.velocity.direction;
+            var newAngle = 2 * wallAngle - ballAngle;
+            ball.velocity = new Vector(
+                ball.velocity.magnitude,
+                newAngle
+            );
         }
     });
 }

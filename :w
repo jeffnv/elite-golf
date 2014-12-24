@@ -16,7 +16,7 @@
 
 <body>
     <canvas width="500" height="500"></canvas>
-    <button id="slow-mode" onClick="toggleSlowMode(event)">SLOW MODE</button>
+    <button id="slow-mode" onClick="toggleSlowMode(event)"></button>
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
         var g = new Golf(canvas);
