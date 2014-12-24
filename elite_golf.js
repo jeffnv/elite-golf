@@ -1,9 +1,10 @@
 FPS = 60
-SLOW = false
+SLOW_MODE = false
+SLOWNESS_FACTOR = 10//when running at slow mode 1/10th normal speed
 function toggleSlowMode(event){
   //runs the game at 1/10th speed for debugging
-  //see line 19
-  SLOW = !SLOW;
+  //see line 21
+  SLOW_MODE = !SLOW_MODE;
 }
 
 function Golf(canvas) {
@@ -18,9 +19,9 @@ Golf.prototype.run = function(canvas) {
     var that = this;
     var frameCount = 0;
     var intervalCallback = function() {
-        if (SLOW) {
+        if (SLOW_MODE) {
             frameCount++;
-            if (frameCount >= 10) {
+            if (frameCount >= SLOWNESS_FACTOR) {
               frameCount = 0;
               that.tick();
             }
@@ -84,6 +85,7 @@ Golf.prototype.drawVector = function(start, end) {
 Golf.prototype.handleRelease = function(clickStart, clickEnd) {
     var vector = Vector.fromCoords(clickStart, clickEnd);
     //want to hit ball in opposite direction from the drag
+    //angry birds style
     vector.direction = (vector.direction + Math.PI) % (2 * Math.PI);
     this.level && this.level.hitBall(vector);
 }

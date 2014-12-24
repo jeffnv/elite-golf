@@ -7,12 +7,20 @@ function Ball(loc, level) {
 Ball.prototype = Object.create(GameItem.prototype);
 
 Ball.prototype.render = function(context) {
+    this.renderBall(context);
+    //this.renderMovementVector(context);
+}
+
+Ball.prototype.renderBall = function(context) {
     GolfDraw.drawCircle(context, {
         color: 'white',
         radius: 5,
         centerX: this.loc.x,
         centerY: this.loc.y
     });
+}
+
+Ball.prototype.renderMovementVector = function(context) {
     var offsets = this.velocity.toOffsets();
     var vEnd = {
         x: this.loc.x + offsets.x * 50,

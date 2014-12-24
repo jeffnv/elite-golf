@@ -15,13 +15,14 @@
 </head>
 
 <body>
+    <h1>ELITE GOLF</h1>
     <canvas width="500" height="500"></canvas>
     <button id="slow-mode" onClick="toggleSlowMode(event)">SLOW MODE</button>
     <script>
         var canvas = document.getElementsByTagName("canvas")[0];
         var g = new Golf(canvas);
         g.run();
-        g.playLevel(new Level(emptyLevel, 500, 500));
+        g.playLevel(new Level(LEVELS.emptyLevel, 500, 500));
     </script>
 </body>
 <style type="text/css" media="all">
