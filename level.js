@@ -12,7 +12,7 @@ Level.prototype.tick = function(ctx){
   GameItem.prototype.tick.call(this, ctx);
   if(this.hole.ballInHole(this.ball)){
     this.ball.reset();
-    alert("it's in the hole!");
+    console.log("it's in the hole!");
   }
 }
 

@@ -2,7 +2,7 @@ function Hole(loc) {
     this.loc = loc
 }
 Hole.RADIUS = 10;
-Hole.MAX_BALL_SPEED = 1;
+Hole.MAX_BALL_SPEED = 2;
 
 
 Hole.prototype = Object.create(GameItem.prototype);

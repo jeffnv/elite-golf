@@ -1,14 +1,18 @@
 function Ball(loc, level) {
-    this.startLoc = {x: loc.x, y: loc.y};
+    this.startLoc = {
+        x: loc.x,
+        y: loc.y
+    };
     this.loc = loc;
     this.level = level;
     this.velocity = new Vector(0, 0);
 }
 
 Ball.prototype = Object.create(GameItem.prototype);
-Ball.prototype.reset = function(){
-  this.loc = this.startLoc;
-  this.velocity.magnitude = 0;
+Ball.prototype.reset = function() {
+    this.loc.x = this.startLoc.x;
+    this.loc.y = this.startLoc.y;
+    this.velocity.magnitude = 0;
 }
 
 Ball.prototype.render = function(context) {
@@ -41,6 +45,9 @@ Ball.prototype.renderMovementVector = function(context) {
 }
 
 Ball.prototype.hit = function(force, direction) {
+    //to prevent repeated ball wall bounce weirdness
+    //dissallow bouncing off the same wall consecutively 
+    delete this.lastBouncedWall;
     var magnitude = force / 20;
     this.velocity = new Vector(magnitude, direction);
 }
@@ -55,7 +62,8 @@ Ball.prototype.move = function() {
 Ball.prototype.processCollisions = function() {
     var ball = this;
     this.level.walls.forEach(function(wall) {
-        if (wall.nearWall(ball.loc)) {
+        if (wall.nearWall(ball.loc) && ball.lastBouncedWall != wall) {
+            ball.lastBouncedWall = wall;
             console.log("collision at " + ball.loc.x + ",  " + ball.loc.y);
             var wallAngle = Vector.fromCoords(wall.start, wall.end).direction;
             var ballAngle = ball.velocity.direction;
