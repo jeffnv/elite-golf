@@ -1,14 +1,20 @@
 function Ball(loc, level) {
+    this.startLoc = {x: loc.x, y: loc.y};
     this.loc = loc;
     this.level = level;
     this.velocity = new Vector(0, 0);
 }
 
 Ball.prototype = Object.create(GameItem.prototype);
+Ball.prototype.reset = function(){
+  this.loc = this.startLoc;
+  this.velocity.magnitude = 0;
+}
 
 Ball.prototype.render = function(context) {
+    console.log(this.velocity.magnitude);
     this.renderBall(context);
-    //this.renderMovementVector(context);
+    this.renderMovementVector(context);
 }
 
 Ball.prototype.renderBall = function(context) {

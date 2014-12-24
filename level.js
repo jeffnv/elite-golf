@@ -8,6 +8,13 @@ function Level(data, dimX, dimY) {
     this.subItems = this.subItems.concat(this.walls);
 }
 Level.prototype = Object.create(GameItem.prototype);
+Level.prototype.tick = function(ctx){
+  GameItem.prototype.tick.call(this, ctx);
+  if(this.hole.ballInHole(this.ball)){
+    this.ball.reset();
+    alert("it's in the hole!");
+  }
+}
 
 Level.prototype.render = function(ctx) {
     ctx.fillStyle = 'green';
