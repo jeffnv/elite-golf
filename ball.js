@@ -31,7 +31,6 @@ Ball.prototype.hit = function(force, direction) {
     this.velocity = new Vector(magnitude, direction);
 }
 Ball.prototype.move = function() {
-    console.log(this.loc);
     var offsets = this.velocity.toOffsets();
     this.loc.x += offsets.x;
     this.loc.y += offsets.y;
@@ -43,25 +42,11 @@ Ball.prototype.processCollisions = function() {
     var ball = this;
     this.level.walls.forEach(function(wall) {
         if (wall.nearWall(ball.loc)) {
+          console.log("collision at " + ball.loc.x + ",  " + ball.loc.y);
             var wallVec = Vector.fromCoords(wall.start, wall.end);
             var incAngle = ball.velocity.direction - wallVec.direction;
             var newAngle = 2 * (wallVec.direction) - ball.velocity.direction;
             ball.velocity = new Vector(ball.velocity.magnitude, newAngle);
-                //-2 * (V o N) * N + V
-                // var wallVec = Vector.fromCoords(wall.start, wall.end);
-                // var wallOffsets = wallVec.toOffsets();
-                // var wallNormal = wallVec.normal();
-                // var dot = wallVec.dotProduct(ball.velocity);
-                // var nv = {
-                //     x: wallNormal.x * dot,
-                //     y: wallNormal.y * dot
-                // };
-                // var ballOffsets = ball.velocity.toOffsets();
-                // var newOffsets = {
-                //     x: nv.x - ballOffsets.x,
-                //     y: nv.y - ballOffsets.y
-                // };
-                // ball.velocity = Vector.fromOffsets(newOffsets.x, newOffsets.y);
         }
     });
 }

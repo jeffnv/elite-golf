@@ -38,8 +38,7 @@ Level.prototype.frictionAtLoc = function(pos) {
 
 
 Level.prototype.drawVector = function(vec) {
-    var offsets = GolfMath.offsetsFromVector(vec);
-    console.log(this.ball.loc);
+    var offsets = vec.toOffsets();
     var start = this.ball.loc;
     this.vector = {
         start: start,

@@ -55,7 +55,7 @@ Golf.prototype.handleMouseDown = function(event) {
 }
 
 Golf.prototype.drawVector = function(start, end) {
-  var vector = GolfMath.vectorizeCoords(start, end);
+  var vector = Vector.fromCoords(start, end);
   this.level && this.level.drawVector(vector);
 }
 Golf.prototype.handleRelease = function(clickStart, clickEnd) {
