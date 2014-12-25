@@ -1,59 +1,94 @@
-function Level(data, dimX, dimY) {
-    this.ball = new Ball(data.ballLoc, this);
-    this.hole = new Hole(data.holeLoc);
-    this.walls = Wall.initArray(data.walls);
-    this.dimX = dimX;
-    this.dimY = dimY;
-    this.subItems = [this.ball, this.hole];
-    this.subItems = this.subItems.concat(this.walls);
-    this.strokes = 0;
-}
-Level.prototype = Object.create(GameItem.prototype);
-Level.prototype.tick = function(ctx){
-  GameItem.prototype.tick.call(this, ctx);
-  if(this.hole.ballInHole(this.ball)){
-    this.ball.reset();
-    alert('strokes: ' + this.strokes);
-  }
+function Level(canvas, width, height) {
+    this.canvas = canvas;
+    this.width = width;
+    this.height = height;
+    this.ctx = canvas.getContext('2d');
+    this.map = new GolfMap(LEVELS[0], this.width, this.height);
 }
 
-Level.prototype.render = function(ctx) {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(0, 0, this.dimX, this.dimY);
-    if (this.vector) {
-        GolfDraw.drawLine(ctx, {
-            color: 'orange',
-            width: 2,
-            start: this.vector.start,
-            end: this.vector.end
-        })
-    }
-}
+Level.prototype = Object.create(GameMode.prototype);
 
-Level.prototype.hitBall = function(hitVector) {
-    this.strokes += 1;
-    if (this.vector) {
-        //only display swing vector before ball is hit
-        delete this.vector;
-    }
-    this.ball.hit(hitVector.magnitude, hitVector.direction);
-}
-
-Level.prototype.frictionAtLoc = function(pos) {
-    //arbitrary value
-    //intend to figure friction at location and return that
-    return 0.03;
-}
-
-
-Level.prototype.drawVector = function(vec) {
-    var offsets = vec.toOffsets();
-    var start = this.ball.loc;
-    this.vector = {
-        start: start,
-        end: {
-            x: start.x + offsets.x,
-            y: start.y + offsets.y
+Level.prototype.run = function() {
+    this.registerEvents(canvas);
+    var that = this;
+    var frameCount = 0;
+    var intervalCallback = function() {
+        if (SLOW_MODE) {
+            frameCount++;
+            if (frameCount >= SLOWNESS_FACTOR) {
+                frameCount = 0;
+                that.tick();
+            }
+        } else {
+            that.tick();
         }
     }
+    setInterval(intervalCallback, 1000 / FPS);
 }
+
+
+
+Level.prototype.registerEvents = function() {
+    canvas.addEventListener(
+        'mousedown',
+        this.handleMouseDown.bind(this),
+        false
+    );
+}
+
+Level.prototype.handleMouseDown = function(event) {
+    var clickStart = {
+        x: event.x,
+        y: event.y
+    };
+    var that = this;
+
+    function dragHandler(event) {
+        var currentPos = {
+            x: event.x,
+            y: event.y
+        };
+        that.drawVector(clickStart, currentPos);
+    }
+
+    function releaseHandler(event) {
+        var clickEnd = {
+            x: event.x,
+            y: event.y
+        };
+        that.canvas.removeEventListener('mouseup', releaseHandler);
+        that.canvas.removeEventListener('mousemove', dragHandler);
+        that.handleRelease(clickStart, clickEnd);
+    };
+    this.canvas.addEventListener(
+        'mouseup',
+        releaseHandler,
+        false
+    );
+    this.canvas.addEventListener(
+        'mousemove',
+        dragHandler,
+        false
+    );
+}
+
+Level.prototype.drawVector = function(start, end) {
+    var vector = Vector.fromCoords(start, end);
+    this.map && this.map.drawVector(vector);
+}
+Level.prototype.handleRelease = function(clickStart, clickEnd) {
+    var vector = Vector.fromCoords(clickStart, clickEnd);
+    //want to hit ball in opposite direction from the drag
+    //angry birds style
+    vector.direction = (vector.direction + Math.PI) % (2 * Math.PI);
+    this.map && this.map.hitBall(vector);
+}
+
+Level.prototype.tick = function() {
+    this.map && this.map.tick(this.ctx);
+}
+
+Level.prototype.playMap = function(map) {
+    this.map = map;
+}
+

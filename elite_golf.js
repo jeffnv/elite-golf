@@ -1,6 +1,12 @@
 FPS = 60
 SLOW_MODE = false
 SLOWNESS_FACTOR = 10//when running at slow mode 1/10th normal speed
+
+GolfStates = {
+  WELCOME_SCREEN: 1,
+  PLAY: 2
+}
+
 function toggleSlowMode(event){
   //runs the game at 1/10th speed for debugging
   //see line 21
@@ -12,88 +18,33 @@ function Golf(canvas) {
     this.ctx = canvas.getContext('2d');
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
+    this.state = GolfStates.PLAY;
 }
 
-Golf.prototype.run = function(canvas) {
-    this.registerEvents(canvas);
-    var that = this;
-    var frameCount = 0;
-    var intervalCallback = function() {
-        if (SLOW_MODE) {
-            frameCount++;
-            if (frameCount >= SLOWNESS_FACTOR) {
-              frameCount = 0;
-              that.tick();
-            }
-        } else {
-            that.tick();
-        }
-    }
-    setInterval(intervalCallback, 1000 / FPS);
+Golf.prototype.changeState = function(state){
+  this.state = state;
+  switch(this.state){
+    case GolfStates.WELCOME_SCREEN:
+      //coming soon
+      break;
+    case GolfStates.PLAY:
+      var playMode = new Level(this.canvas, this.width, this.height);
+      this.changeMode(playMode);
+      break;
+    default:
+      alert('wtf');
+      break;
+  }
 }
 
-
-
-Golf.prototype.registerEvents = function() {
-    canvas.addEventListener(
-        'mousedown',
-        this.handleMouseDown.bind(this),
-        false
-    );
+Golf.prototype.run = function() {
+  this.changeState(GolfStates.PLAY);
 }
 
-Golf.prototype.handleMouseDown = function(event) {
-    var clickStart = {
-        x: event.x,
-        y: event.y
-    };
-    var that = this;
-
-    function dragHandler(event) {
-        var currentPos = {
-            x: event.x,
-            y: event.y
-        };
-        that.drawVector(clickStart, currentPos);
-    }
-
-    function releaseHandler(event) {
-        var clickEnd = {
-            x: event.x,
-            y: event.y
-        };
-        that.canvas.removeEventListener('mouseup', releaseHandler);
-        that.canvas.removeEventListener('mousemove', dragHandler);
-        that.handleRelease(clickStart, clickEnd);
-    };
-    this.canvas.addEventListener(
-        'mouseup',
-        releaseHandler,
-        false
-    );
-    this.canvas.addEventListener(
-        'mousemove',
-        dragHandler,
-        false
-    );
-}
-
-Golf.prototype.drawVector = function(start, end) {
-    var vector = Vector.fromCoords(start, end);
-    this.level && this.level.drawVector(vector);
-}
-Golf.prototype.handleRelease = function(clickStart, clickEnd) {
-    var vector = Vector.fromCoords(clickStart, clickEnd);
-    //want to hit ball in opposite direction from the drag
-    //angry birds style
-    vector.direction = (vector.direction + Math.PI) % (2 * Math.PI);
-    this.level && this.level.hitBall(vector);
-}
-
-Golf.prototype.tick = function() {
-    this.level && this.level.tick(this.ctx);
-}
-
-Golf.prototype.playLevel = function(level) {
-    this.level = level;
+Golf.prototype.changeMode = function(newMode){
+  if(this.currentMode){
+    this.currentMode.dispose();
+  }
+  this.currentMode = newMode;
+  this.currentMode.run();
 }
