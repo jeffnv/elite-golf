@@ -18,17 +18,17 @@ function Golf(canvas) {
     this.ctx = canvas.getContext('2d');
     this.width = canvas.getAttribute('width');
     this.height = canvas.getAttribute('height');
-    this.state = GolfStates.PLAY;
 }
 
 Golf.prototype.changeState = function(state){
   this.state = state;
   switch(this.state){
     case GolfStates.WELCOME_SCREEN:
-      //coming soon
+      var welcomeMode = new WelcomeScreen(this.canvas, this.advance.bind(this));
+      this.changeMode(welcomeMode);
       break;
     case GolfStates.PLAY:
-      var playMode = new Level(this.canvas, this.width, this.height);
+      var playMode = new Level(this.canvas, this.advance.bind(this));
       this.changeMode(playMode);
       break;
     default:
@@ -37,8 +37,12 @@ Golf.prototype.changeState = function(state){
   }
 }
 
+Golf.prototype.advance = function(){
+  this.changeState(this.state + 1);
+}
+
 Golf.prototype.run = function() {
-  this.changeState(GolfStates.PLAY);
+  this.changeState(GolfStates.WELCOME_SCREEN);
 }
 
 Golf.prototype.changeMode = function(newMode){

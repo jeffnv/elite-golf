@@ -1,5 +1,4 @@
 function GolfMap(data, dimX, dimY) {
-  debugger
     this.ball = new Ball(data.ballLoc, this);
     this.hole = new Hole(data.holeLoc);
     this.walls = Wall.initArray(data.walls);

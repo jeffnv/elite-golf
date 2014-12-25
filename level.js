@@ -1,15 +1,11 @@
-function Level(canvas, width, height) {
-    this.canvas = canvas;
-    this.width = width;
-    this.height = height;
-    this.ctx = canvas.getContext('2d');
+function Level(canvas, endCallback) {
+    GameMode.call(this, canvas, endCallback);
     this.map = new GolfMap(LEVELS[0], this.width, this.height);
 }
 
 Level.prototype = Object.create(GameMode.prototype);
 
-Level.prototype.run = function() {
-    this.registerEvents(canvas);
+Level.prototype.startAction = function(){
     var that = this;
     var frameCount = 0;
     var intervalCallback = function() {
@@ -25,8 +21,6 @@ Level.prototype.run = function() {
     }
     setInterval(intervalCallback, 1000 / FPS);
 }
-
-
 
 Level.prototype.registerEvents = function() {
     canvas.addEventListener(
