@@ -1,11 +1,26 @@
 function Level(canvas, endCallback) {
     GameMode.call(this, canvas, endCallback);
-    this.map = new GolfMap(LEVELS[0], this.width, this.height);
+    this.mapIndex = 0;
+    this.loadMap();
 }
 
 Level.prototype = Object.create(GameMode.prototype);
 
-Level.prototype.startAction = function(){
+Level.prototype.playNextMap = function(){
+  this.mapIndex++;
+  //should check to see if we are out of maps
+  this.loadMap();
+}
+Level.prototype.loadMap = function() {
+    this.map = new GolfMap(
+        MAPS[this.mapIndex],
+        this.width,
+        this.height,
+        this.playNextMap.bind(this)
+    );
+}
+
+Level.prototype.startAction = function() {
     var that = this;
     var frameCount = 0;
     var intervalCallback = function() {
@@ -80,9 +95,5 @@ Level.prototype.handleRelease = function(clickStart, clickEnd) {
 
 Level.prototype.tick = function() {
     this.map && this.map.tick(this.ctx);
-}
-
-Level.prototype.playMap = function(map) {
-    this.map = map;
 }
 

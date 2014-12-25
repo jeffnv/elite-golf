@@ -3,8 +3,8 @@ SLOW_MODE = false
 SLOWNESS_FACTOR = 10//when running at slow mode 1/10th normal speed
 
 GolfStates = {
-  WELCOME_SCREEN: 1,
-  PLAY: 2
+  WELCOME_SCREEN: 0,
+  PLAY: 1
 }
 
 function toggleSlowMode(event){
@@ -24,11 +24,11 @@ Golf.prototype.changeState = function(state){
   this.state = state;
   switch(this.state){
     case GolfStates.WELCOME_SCREEN:
-      var welcomeMode = new WelcomeScreen(this.canvas, this.advance.bind(this));
+      var welcomeMode = new WelcomeScreen(this.canvas, this.advanceState.bind(this));
       this.changeMode(welcomeMode);
       break;
     case GolfStates.PLAY:
-      var playMode = new Level(this.canvas, this.advance.bind(this));
+      var playMode = new Level(this.canvas, this.advanceState.bind(this));
       this.changeMode(playMode);
       break;
     default:
@@ -37,8 +37,10 @@ Golf.prototype.changeState = function(state){
   }
 }
 
-Golf.prototype.advance = function(){
-  this.changeState(this.state + 1);
+Golf.prototype.advanceState = function(){
+  var stateCount = Object.keys(GolfStates).length;
+  var nextState = (this.state + 1) % stateCount;
+  this.changeState(nextState);
 }
 
 Golf.prototype.run = function() {
@@ -49,6 +51,7 @@ Golf.prototype.changeMode = function(newMode){
   if(this.currentMode){
     this.currentMode.dispose();
   }
+
   this.currentMode = newMode;
   this.currentMode.run();
 }
