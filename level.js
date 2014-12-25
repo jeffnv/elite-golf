@@ -6,13 +6,14 @@ function Level(data, dimX, dimY) {
     this.dimY = dimY;
     this.subItems = [this.ball, this.hole];
     this.subItems = this.subItems.concat(this.walls);
+    this.strokes = 0;
 }
 Level.prototype = Object.create(GameItem.prototype);
 Level.prototype.tick = function(ctx){
   GameItem.prototype.tick.call(this, ctx);
   if(this.hole.ballInHole(this.ball)){
     this.ball.reset();
-    console.log("it's in the hole!");
+    alert('strokes: ' + this.strokes);
   }
 }
 
@@ -30,6 +31,7 @@ Level.prototype.render = function(ctx) {
 }
 
 Level.prototype.hitBall = function(hitVector) {
+    this.strokes += 1;
     if (this.vector) {
         //only display swing vector before ball is hit
         delete this.vector;

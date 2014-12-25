@@ -16,7 +16,6 @@ Ball.prototype.reset = function() {
 }
 
 Ball.prototype.render = function(context) {
-    console.log(this.velocity.magnitude);
     this.renderBall(context);
     this.renderMovementVector(context);
 }

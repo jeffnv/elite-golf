@@ -1,5 +1,5 @@
-LEVELS = {}
-LEVELS.emptyLevel = {
+LEVELS = []
+LEVELS.push({
     ballLoc: {
         x: 200,
         y: 400
@@ -10,32 +10,32 @@ LEVELS.emptyLevel = {
     },
     walls: [{
         start: {
-            x: 100,
-            y: 100
+            x: 5,
+            y: 5
         },
         end: {
             x: 500,
-            y: 100
+            y: 5
         }
     }, {
         start: {
-            x: 100,
-            y: 100
+            x: 5,
+            y: 5
         },
         end: {
-            x: 100,
+            x: 5,
             y: 500
         }
     }, {
         start: {
             x: 495,
-            y: 100
+            y: 5
         },
         end: {
             x: 495,
-            y: 500
+            y: 495
         }
-    },{
+    }, {
         start: {
             x: 150,
             y: 150
@@ -44,9 +44,9 @@ LEVELS.emptyLevel = {
             x: 400,
             y: 400
         }
-    },{
+    }, {
         start: {
-            x: 100,
+            x: 5,
             y: 495
         },
         end: {
@@ -54,4 +54,4 @@ LEVELS.emptyLevel = {
             y: 495
         }
     }]
-}
+});
