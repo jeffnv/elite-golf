@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <title>Elite Golf</title>
-    <link rel="SHORTCUT ICON" href="favicon.png">
-    <link rel='stylesheet' link='style.css' type="text/css">
-    <script src="game_item.js"></script>
-    <script src="elite_golf.js"></script>
-    <script src="game_mode.js"></script>
-    <script src="map_builder.js"></script>
-    <script src="maps.js"></script>
-    <script src="golf_map.js"></script>
-    <script src="hole.js"></script>
-    <script src="level.js"></script>
-    <script src="ball.js"></script>
-    <script src="wall.js"></script>
-    <script src="golf_math.js"></script>
-    <script src="golf_draw.js"></script>
-    <script src="vector.js"></script>
-    <script src="welcome_screen.js"></script>
+<link rel="SHORTCUT ICON" href="favicon.png">
+<link rel='stylesheet' link='style.css' type="text/css">
+<script src="game_item.js"></script>
+<script src="elite_golf.js"></script>
+<script src="game_mode.js"></script>
+<script src="map_builder.js"></script>
+<script src="maps.js"></script>
+<script src="golf_map.js"></script>
+<script src="hole.js"></script>
+<script src="level.js"></script>
+<script src="ball.js"></script>
+<script src="wall.js"></script>
+<script src="golf_math.js"></script>
+<script src="golf_draw.js"></script>
+<script src="vector.js"></script>
+<script src="welcome_screen.js"></script>
 </head>
 
 <body>
-    <h1>ELITE GOLF</h1>
-    <canvas width="500" height="500"></canvas>
-    <button id="slow-mode" onClick="toggleSlowMode(event)">SLOW MODE</button>
-    <script>
-        var canvas = document.getElementsByTagName("canvas")[0];
-        var g = new Golf(canvas);
-        g.run();
-        //g.playLevel(new Level(LEVELS[0], 500, 500));
-    </script>
+  <h1>ELITE GOLF</h1>
+  <canvas width="500" height="500"></canvas>
+  <button id="slow-mode" onClick="toggleSlowMode(event)">SLOW MODE</button>
+  <table id="score">
+    <tr>
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+    </tr>
+    <tr id="par">
+      <td>Par</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr id="score">
+      <td>Strokes</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+  <script>
+    var canvas = document.getElementsByTagName("canvas")[0];
+    var g = new Golf(canvas);
+    g.run();
+  </script>
 </body>
 <style type="text/css" media="all">
   canvas{

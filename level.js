@@ -1,10 +1,20 @@
 function Level(canvas, endCallback) {
     GameMode.call(this, canvas, endCallback);
+    this.loadPar();
     this.mapIndex = 0;
     this.loadMap();
 }
 
+
 Level.prototype = Object.create(GameMode.prototype);
+
+Level.prototype.loadPar = function(){
+  var parNodes = document.getElementById('par').children;
+  MAPS.forEach(function(map, i){
+    parNodes[i + 1].innerText = map.par;
+    console.log("par: " + map.par + ", " + i);
+  });
+}
 
 Level.prototype.playNextMap = function() {
     this.mapIndex++;
@@ -62,7 +72,10 @@ Level.prototype.registerEvents = function() {
 }
 
 Level.prototype.handleMouseDown = function(event) {
-    console.log("CLICKAROO");
+    //no hitting moving balls
+    if(this.map.ballMoving()){
+      return;
+    }
     var clickStart = {
         x: event.x,
         y: event.y

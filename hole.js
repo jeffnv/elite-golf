@@ -21,13 +21,14 @@ Hole.prototype.ballInHole = function(ball) {
   var ballSpeed = ball.velocity.magnitude;
   var inHole = false;
   if(ballDistance < Hole.RADIUS){
-    if(ballDistance <= Hole.MAX_BALL_SPEED){
+    if(ballSpeed <= Hole.MAX_BALL_SPEED){
       inHole = true;
       //if ball is traveling too rapidly, it takes a wicked hop :(
     } else {
       inHole = false;
-      var dir = ball.velocity.direction;
-      ball.velocity.direction = dir + (Math.random() * 0.5 * Math.PI) - (0.25 * Math.PI);
+      console.log('bounce');
+      var offset = (Math.random() * 0.5 * Math.PI) - (0.25 * Math.PI);
+      ball.velocity.direction += offset;
     }
   }
   return inHole;

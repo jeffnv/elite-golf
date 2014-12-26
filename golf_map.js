@@ -11,6 +11,9 @@ function GolfMap(data, dimX, dimY, mapOverCallback) {
 }
 
 GolfMap.prototype = Object.create(GameItem.prototype);
+GolfMap.prototype.ballMoving = function(){
+  return this.ball.moving();
+}
 
 GolfMap.prototype.tick = function(ctx) {
     GameItem.prototype.tick.call(this, ctx);

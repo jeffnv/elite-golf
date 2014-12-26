@@ -12,6 +12,9 @@ function Ball(loc, level) {
 }
 
 Ball.prototype = Object.create(GameItem.prototype);
+Ball.prototype.moving = function(){
+  return this.velocity.magnitude > 0;
+}
 Ball.prototype.reset = function() {
     this.loc.x = this.startLoc.x;
     this.loc.y = this.startLoc.y;
