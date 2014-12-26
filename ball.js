@@ -3,7 +3,10 @@ function Ball(loc, level) {
         x: loc.x,
         y: loc.y
     };
-    this.loc = loc;
+    this.loc = {
+        x: loc.x,
+        y: loc.y
+    };
     this.level = level;
     this.velocity = new Vector(0, 0);
 }
@@ -17,7 +20,8 @@ Ball.prototype.reset = function() {
 
 Ball.prototype.render = function(context) {
     this.renderBall(context);
-    this.renderMovementVector(context);
+    //this.renderMovementVector(context);
+    //useful for debugging bounces, can see direction of travel
 }
 
 Ball.prototype.renderBall = function(context) {

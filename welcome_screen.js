@@ -13,9 +13,11 @@ WelcomeScreen.prototype.registerEvents = function() {
         false
     );
 }
+
 WelcomeScreen.prototype.handleClick = function(event){
   event.preventDefault();
-  this.endCallback();
+  //figure out which thing was clicked on, trigger appropriately 
+  this.endCallback(GolfStates.PLAY);
 }
 
 

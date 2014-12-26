@@ -2,7 +2,7 @@ function Hole(loc) {
     this.loc = loc
 }
 Hole.RADIUS = 10;
-Hole.MAX_BALL_SPEED = 2;
+Hole.MAX_BALL_SPEED = 2.5;
 
 
 Hole.prototype = Object.create(GameItem.prototype);
@@ -19,5 +19,16 @@ Hole.prototype.render = function(context) {
 Hole.prototype.ballInHole = function(ball) {
   var ballDistance = GolfMath.distBtwPoints(this.loc, ball.loc);
   var ballSpeed = ball.velocity.magnitude;
-  return (ballDistance < Hole.RADIUS) && (ballSpeed < Hole.MAX_BALL_SPEED);
+  var inHole = false;
+  if(ballDistance < Hole.RADIUS){
+    if(ballDistance <= Hole.MAX_BALL_SPEED){
+      inHole = true;
+      //if ball is traveling too rapidly, it takes a wicked hop :(
+    } else {
+      inHole = false;
+      var dir = ball.velocity.direction;
+      ball.velocity.direction = dir + (Math.random() * 0.5 * Math.PI) - (0.25 * Math.PI);
+    }
+  }
+  return inHole;
 }

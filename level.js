@@ -6,11 +6,26 @@ function Level(canvas, endCallback) {
 
 Level.prototype = Object.create(GameMode.prototype);
 
-Level.prototype.playNextMap = function(){
-  this.mapIndex++;
-  //should check to see if we are out of maps
-  this.loadMap();
+Level.prototype.playNextMap = function() {
+    this.mapIndex++;
+    //should check to see if we are out of maps
+    if (this.mapIndex < MAPS.length) {
+        this.loadMap();
+    } else {
+        alert('game over!');
+        this.endCallback(GolfStates.WELCOME_SCREEN);
+    }
 }
+
+Level.prototype.dispose = function() {
+    debugger
+    clearInterval(this.intervalID);
+    canvas.removeEventListener(
+        'mousedown',
+        this.boundMouseHandler
+    );
+}
+
 Level.prototype.loadMap = function() {
     this.map = new GolfMap(
         MAPS[this.mapIndex],
@@ -34,18 +49,20 @@ Level.prototype.startAction = function() {
             that.tick();
         }
     }
-    setInterval(intervalCallback, 1000 / FPS);
+    this.intervalID = setInterval(intervalCallback, 1000 / FPS);
 }
 
 Level.prototype.registerEvents = function() {
+    this.boundMouseHandler = this.handleMouseDown.bind(this);
     canvas.addEventListener(
         'mousedown',
-        this.handleMouseDown.bind(this),
+        this.boundMouseHandler,
         false
     );
 }
 
 Level.prototype.handleMouseDown = function(event) {
+    console.log("CLICKAROO");
     var clickStart = {
         x: event.x,
         y: event.y
@@ -96,4 +113,3 @@ Level.prototype.handleRelease = function(clickStart, clickEnd) {
 Level.prototype.tick = function() {
     this.map && this.map.tick(this.ctx);
 }
-

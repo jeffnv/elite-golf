@@ -24,11 +24,11 @@ Golf.prototype.changeState = function(state){
   this.state = state;
   switch(this.state){
     case GolfStates.WELCOME_SCREEN:
-      var welcomeMode = new WelcomeScreen(this.canvas, this.advanceState.bind(this));
+      var welcomeMode = new WelcomeScreen(this.canvas, this.changeState.bind(this));
       this.changeMode(welcomeMode);
       break;
     case GolfStates.PLAY:
-      var playMode = new Level(this.canvas, this.advanceState.bind(this));
+      var playMode = new Level(this.canvas, this.changeState.bind(this));
       this.changeMode(playMode);
       break;
     default:
