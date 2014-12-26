@@ -22,12 +22,15 @@ WelcomeScreen.prototype.handleClick = function(event){
 
 
 WelcomeScreen.prototype.startAction = function() {
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, this.width, this.height);
     GolfDraw.drawCircle(this.ctx, {
         color: 'green',
         radius: 150,
         centerX: this.width / 2,
         centerY: this.height / 2
     });
+    GolfDraw.drawText(this.ctx, "CLICK ANYWHERE TO GOLF");
 }
 
 WelcomeScreen.prototype.dispose = function() {
