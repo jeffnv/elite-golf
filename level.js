@@ -9,10 +9,8 @@ function Level(canvas, endCallback) {
 Level.prototype = Object.create(GameMode.prototype);
 
 Level.prototype.loadPar = function(){
-  var parNodes = document.getElementById('par').children;
   MAPS.forEach(function(map, i){
-    parNodes[i + 1].innerText = map.par;
-    console.log("par: " + map.par + ", " + i);
+    ScoreCard.par(i, map.par);
   });
 }
 
@@ -28,7 +26,6 @@ Level.prototype.playNextMap = function() {
 }
 
 Level.prototype.dispose = function() {
-    debugger
     clearInterval(this.intervalID);
     canvas.removeEventListener(
         'mousedown',
@@ -37,12 +34,19 @@ Level.prototype.dispose = function() {
 }
 
 Level.prototype.loadMap = function() {
+    var strokeNodes = document.getElementById('strokes').children;
     this.map = new GolfMap(
         MAPS[this.mapIndex],
         this.width,
         this.height,
+        this.logStroke.bind(this),
         this.playNextMap.bind(this)
     );
+}
+
+Level.prototype.logStroke = function(){
+  var currentStrokes = ScoreCard.strokes(this.mapIndex);
+  ScoreCard.strokes(this.mapIndex, currentStrokes + 1);
 }
 
 Level.prototype.startAction = function() {

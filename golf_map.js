@@ -1,4 +1,4 @@
-function GolfMap(data, dimX, dimY, mapOverCallback) {
+function GolfMap(data, dimX, dimY, strokeCallback, mapOverCallback) {
     this.ball = new Ball(data.ballLoc, this);
     this.hole = new Hole(data.holeLoc);
     this.walls = Wall.initArray(data.walls);
@@ -6,19 +6,18 @@ function GolfMap(data, dimX, dimY, mapOverCallback) {
     this.dimY = dimY;
     this.subItems = [this.ball, this.hole];
     this.subItems = this.subItems.concat(this.walls);
-    this.strokes = 0;
+    this.strokeCallback = strokeCallback;
     this.mapOverCallback = mapOverCallback;
 }
 
 GolfMap.prototype = Object.create(GameItem.prototype);
-GolfMap.prototype.ballMoving = function(){
-  return this.ball.moving();
+GolfMap.prototype.ballMoving = function() {
+    return this.ball.moving();
 }
 
 GolfMap.prototype.tick = function(ctx) {
     GameItem.prototype.tick.call(this, ctx);
     if (this.hole.ballInHole(this.ball)) {
-        alert('strokes: ' + this.strokes);
         this.mapOverCallback();
     }
 }
@@ -36,12 +35,13 @@ GolfMap.prototype.render = function(ctx) {
     }
 }
 
+GolfMap.MINIMUM_SWING_STRENGTH = 8;
 GolfMap.prototype.hitBall = function(hitVector) {
-    this.strokes += 1;
-    if (this.vector) {
-        //only display swing vector before ball is hit
-        delete this.vector;
+    delete this.vector;
+    if (hitVector.magnitude < GolfMap.MINIMUM_SWING_STRENGTH) {
+        return;
     }
+    this.strokeCallback();
     this.ball.hit(hitVector.magnitude, hitVector.direction);
 }
 
