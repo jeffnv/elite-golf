@@ -18,7 +18,8 @@ Wall.prototype = Object.create(GameItem.prototype);
 Wall.prototype.wallAngle = function(){
   return new Vector(this.start, this.end).direction;
 }
-Wall.NEARNESS_THRESHOLD = 4;
+
+Wall.NEARNESS_THRESHOLD = 1;
 
 Wall.prototype.nearWall = function(point){
   var wallLength = GolfMath.distBtwPoints(this.start, this.end);
