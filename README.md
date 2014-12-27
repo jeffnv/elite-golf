@@ -19,6 +19,7 @@
 * golf
 
 ## TODO
+* maximum hit vector
 * add sand and water hazards
 * level creator
 * rails backend to keep score

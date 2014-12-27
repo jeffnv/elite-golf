@@ -22,8 +22,7 @@ WelcomeScreen.prototype.handleClick = function(event){
 
 
 WelcomeScreen.prototype.startAction = function() {
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, this.width, this.height);
+    GolfDraw.drawBackground(this.ctx, {width: this.width, height: this.height, color: 'white'});
     GolfDraw.drawCircle(this.ctx, {
         color: 'green',
         radius: 150,
