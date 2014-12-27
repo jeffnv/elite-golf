@@ -18,8 +18,9 @@ Sand.initArray = function(sandData) {
 Sand.prototype = Object.create(GameItem.prototype);
 
 Sand.prototype.render = function(context) {
-    GolfDraw.drawRect(context, {
+    GolfDraw.drawRoundRect(context, {
         color: 'khaki',
+        radius: 10,
         topLeft: this.topLeft,
         bottomRight: this.bottomRight
     });
