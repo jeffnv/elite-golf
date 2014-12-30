@@ -26,3 +26,9 @@ th{
   word-break:normal;
 }
 
+#game-tabs > div {
+  display: none;
+}
+#game-tabs > .active {
+  display: block;
+}

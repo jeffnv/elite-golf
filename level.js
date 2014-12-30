@@ -3,7 +3,9 @@ function Level(canvas, endCallback) {
     this.loadPar();
     this.mapIndex = 0;
     this.loadMap();
+    this.tabID = "play-tab";
 }
+
 
 
 Level.prototype = Object.create(GameMode.prototype);
