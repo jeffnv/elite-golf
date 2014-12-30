@@ -21,9 +21,18 @@ GolfDraw = {
         context.fillStyle = options.color;
         context.fill();
     },
-    drawText: function(context, message) {
-        context.font = 'bold 20pt Helvetica';
-        context.fillText(message, 65, 50);
+    drawText: function(context, message, options) {
+        var options = options || {};
+        var color = options.color || 'black';
+        var size = options.size || 20;
+        var weight = options.weight || 'bold';
+        var x = options.x || 65;
+        var y = options.y || 50;
+        context.beginPath();
+        context.fillStyle = color;
+        context.font = weight + " " + size + "pt " + "Arial";
+        context.fillText(message, x, y);
+        context.fill();
     },
     drawBackground: function(context, options) {
         context.beginPath();

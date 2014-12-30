@@ -1,5 +1,5 @@
-function Level(canvas, endCallback) {
-    GameMode.call(this, canvas, endCallback);
+function Level(canvas, changeGameMode) {
+    GameMode.call(this, canvas, changeGameMode);
     this.loadPar();
     this.mapIndex = 0;
     this.loadMap();
@@ -23,16 +23,13 @@ Level.prototype.playNextMap = function() {
         this.loadMap();
     } else {
         alert('game over!');
-        this.endCallback(GolfStates.WELCOME_SCREEN);
+        this.changeGameMode(GolfStates.WELCOME_SCREEN);
     }
 }
 
 Level.prototype.dispose = function() {
     clearInterval(this.intervalID);
-    canvas.removeEventListener(
-        'mousedown',
-        this.boundMouseHandler
-    );
+    this.removeEvents();
 }
 
 Level.prototype.loadMap = function() {

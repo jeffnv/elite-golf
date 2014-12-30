@@ -1,10 +1,12 @@
+
 FPS = 60
 SLOW_MODE = false
 SLOWNESS_FACTOR = 10//when running at slow mode 1/10th normal speed
 
 GolfStates = {
   WELCOME_SCREEN: 0,
-  PLAY: 1
+  PLAY: 1,
+  MAP_CREATOR: 2
 }
 
 function toggleSlowMode(event){
@@ -29,6 +31,10 @@ Golf.prototype.changeState = function(state){
       break;
     case GolfStates.PLAY:
       var playMode = new Level(this.canvas, this.changeState.bind(this));
+      this.changeMode(playMode);
+      break;
+    case GolfStates.MAP_CREATOR:
+      var playMode = new MapCreator(this.canvas, this.changeState.bind(this));
       this.changeMode(playMode);
       break;
     default:

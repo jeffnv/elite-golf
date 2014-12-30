@@ -1,25 +1,30 @@
 function MapCreator(canvas, endCallback) {
     GameMode.call(this, canvas, endCallback);
     this.tabID = 'map-creator-tab';
+    this.events = [];
+    this.randomizeButton = document.getElementById('randomizer');
 }
 
 MapCreator.prototype = Object.create(GameMode.prototype);
-MapCreator.prototype.addRandomButton = function(){
-  var button = document.createElement('button');
-  button.setAttribute('id', 'randomizer');
+
+MapCreator.prototype.registerEvents = function() {
+    this.addEvent(this.canvas, 'mousedown', this.handleMapClick);
+    this.addEvent(this.randomizeButton, 'click', this.randomize);
 }
 
-MapCreator.prototype.registerEvents = function(){
-    this.clickCallback = this.handleClick.bind(this);
-    this.canvas.addEventListener(
-        'mousedown',
-        this.clickCallback,
-        false
-    );
+MapCreator.prototype.randomize = function(){
+  alert('random'); 
 }
 
-MapCreator.prototype.startAction = function(){
+MapCreator.prototype.handleMapClick = function() {
+    alert('click');
 }
 
-MapCreator.prototype.dispose = function(){
+MapCreator.prototype.startAction = function() {
+    GolfDraw.drawBackground(this.ctx, {
+        width: this.width,
+        height: this.height,
+        color: 'white'
+    });
 }
+

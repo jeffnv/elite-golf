@@ -1,5 +1,6 @@
-function WelcomeScreen(canvas, endCallback) {
-    GameMode.call(this, canvas, endCallback);
+function WelcomeScreen(canvas, changeGameMode) {
+    GameMode.call(this, canvas, changeGameMode);
+
     this.playButtonAttrs = {
       radius: 150, 
       centerX:100,
@@ -13,17 +14,12 @@ function WelcomeScreen(canvas, endCallback) {
       centerY: 300,
       color: 'orange'
     }
-}
+};
 
 WelcomeScreen.prototype = Object.create(GameMode.prototype);
 
 WelcomeScreen.prototype.registerEvents = function() {
-    this.clickCallback = this.handleClick.bind(this);
-    this.canvas.addEventListener(
-        'mousedown',
-        this.clickCallback,
-        false
-    );
+  this.addEvent(this.canvas, 'mousedown', this.handleClick);
 }
 
 WelcomeScreen.prototype.handleClick = function(event){
@@ -31,9 +27,9 @@ WelcomeScreen.prototype.handleClick = function(event){
   //figure out which thing was clicked on, trigger appropriately
   var clickLoc = {x: event.offsetX, y: event.offsetY};
   if(this.insideButton(clickLoc, this.playButtonAttrs)){
-    this.endCallback(GolfStates.PLAY);
+    this.changeGameMode(GolfStates.PLAY);
   } else if (this.insideButton(clickLoc, this.createButtonAttrs)){
-    this.endCallback(GolfStates.CREATE_MAP);
+    this.changeGameMode(GolfStates.MAP_CREATOR);
   }
 }
 
@@ -46,14 +42,11 @@ WelcomeScreen.prototype.insideButton = function(coords, buttonAttrs){
 
 WelcomeScreen.prototype.startAction = function() {
     GolfDraw.drawBackground(this.ctx, {width: this.width, height: this.height, color: 'white'});
+    GolfDraw.drawText(this.ctx, "CLICK GREEN THING TO GOLF");
     GolfDraw.drawCircle(this.ctx, this.playButtonAttrs);
     GolfDraw.drawCircle(this.ctx, this.createButtonAttrs);
-    GolfDraw.drawText(this.ctx, "CLICK GREEN THING TO GOLF");
 }
 
 WelcomeScreen.prototype.dispose = function() {
-    this.canvas.removeEventListener(
-        'mousedown',
-        this.clickCallback
-    );
+  this.removeEvents();
 }
