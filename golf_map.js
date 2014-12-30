@@ -18,8 +18,8 @@ function GolfMap(data, dimX, dimY, strokeCallback, mapOverCallback) {
 
 GolfMap.prototype = Object.create(GameItem.prototype);
 
-GameItem.prototype.toJSON = function(){
-  return JSON.stringify(this.mapData);
+GameItem.prototype.toJSON = function() {
+    return JSON.stringify(this.mapData);
 }
 
 GolfMap.prototype.ballMoving = function() {
@@ -65,10 +65,10 @@ GolfMap.prototype.frictionAtLoc = function(pos) {
     //intend to figure friction at location and return that
     var friction = GolfMap.GRASS_FRICTION;
     var ball = this.ball;
-    this.traps.forEach(function(trap){
-      if(trap.contains(ball)){
-        friction = trap.friction;
-      }
+    this.traps.forEach(function(trap) {
+        if (trap.contains(ball)) {
+            friction = trap.friction;
+        }
     });
     return friction;
 }
