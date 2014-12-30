@@ -6,8 +6,6 @@ function Level(canvas, changeGameMode) {
     this.tabID = "play-tab";
 }
 
-
-
 Level.prototype = Object.create(GameMode.prototype);
 
 Level.prototype.loadPar = function(){

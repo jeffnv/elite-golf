@@ -1,4 +1,5 @@
 function GolfMap(data, dimX, dimY, strokeCallback, mapOverCallback) {
+    this.mapData = data;
     this.ball = new Ball(data.ballLoc, this);
     this.hole = new Hole(data.holeLoc);
     this.walls = Wall.initArray(data.walls);
@@ -16,6 +17,11 @@ function GolfMap(data, dimX, dimY, strokeCallback, mapOverCallback) {
 }
 
 GolfMap.prototype = Object.create(GameItem.prototype);
+
+GameItem.prototype.toJSON = function(){
+  return JSON.stringify(this.mapData);
+}
+
 GolfMap.prototype.ballMoving = function() {
     return this.ball.moving();
 }
