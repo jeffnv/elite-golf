@@ -9,6 +9,8 @@ function MapCreator(canvas, endCallback) {
     this.ballLocButton = document.getElementById('ball-loc-button');
     this.holeLocButton = document.getElementById('hole-loc-button');
     this.parSelect = document.getElementById('par-select');
+    this.addWallButton = document.getElementById('add-wall-button');
+    this.addTrapButton = document.getElementById('add-trap-button');
     this.state = MapCreator.STATES.IDLE;
     this.clicks = [];
 }
@@ -32,15 +34,26 @@ MapCreator.prototype.registerEvents = function() {
         'click',
         this.changeState.bind(this, MapCreator.STATES.HOLE_LOC)
     );
+    this.addEvent(
+        this.addWallButton,
+        'click',
+        this.changeState.bind(this, MapCreator.STATES.ADD_WALL)
+    );
+    this.addEvent(
+        this.addTrapButton,
+        'click',
+        this.changeState.bind(this, MapCreator.STATES.ADD_TRAP)
+    );
 }
 
-MapCreator.prototype.setPar = function(){
-  this.mapData.par = this.selectedPar();
+MapCreator.prototype.setPar = function() {
+    this.mapData.par = this.selectedPar();
 }
 
 MapCreator.prototype.changeState = function(newState) {
     this.state = newState;
     this.clicks = [];
+    this.loadMap();
 }
 MapCreator.prototype.loadEmptyMap = function() {
     this.mapData = MapBuilder.emptyMap();
@@ -52,35 +65,74 @@ MapCreator.prototype.loadMap = function() {
     this.map.tick(this.ctx);
 }
 
-MapCreator.prototype.setBallLoc = function(coords) {
-    this.mapData.ballLoc = coords;
-    this.loadMap();
+MapCreator.prototype.setBallLoc = function() {
+    this.mapData.ballLoc = this.clicks.pop();
+    this.changeState(MapCreator.STATES.IDLE);
 }
-MapCreator.prototype.setHoleLoc = function(coords) {
-    this.mapData.holeLoc = coords;
-    this.loadMap();
+MapCreator.prototype.setHoleLoc = function() {
+    this.mapData.holeLoc = this.clicks.pop();
+    this.changeState(MapCreator.STATES.IDLE);
 }
+MapCreator.prototype.addWall = function() {
+    if (this.clicks.length == 2) {
+        this.mapData.walls.push({
+            start: {
+                x: this.clicks[0].x,
+                y: this.clicks[0].y
+            },
+            end: {
+                x: this.clicks[1].x,
+                y: this.clicks[1].y
+            }
+        });
+        this.changeState(MapCreator.STATES.IDLE);
+    }
+}
+
+MapCreator.prototype.addTrap = function() {
+    if (this.clicks.length == 2) {
+        this.mapData.traps.push({
+            topLeft: {
+                x: this.clicks[0].x,
+                y: this.clicks[0].y
+            },
+            bottomRight: {
+                x: this.clicks[1].x,
+                y: this.clicks[1].y
+            }
+        });
+        this.changeState(MapCreator.STATES.IDLE);
+    }
+}
+
 MapCreator.STATES = {
     IDLE: 0,
     BALL_LOC: 1,
-    HOLE_LOC: 2
+    HOLE_LOC: 2,
+    ADD_TRAP: 3,
+    ADD_WALL: 4
 }
 MapCreator.prototype.handleMapClick = function(event) {
     var coords = {
         x: event.offsetX,
         y: event.offsetY
     };
+    this.clicks.push(coords);
     switch (this.state) {
         case MapCreator.STATES.IDLE:
             alert('idle');
             break;
         case MapCreator.STATES.BALL_LOC:
-            this.setBallLoc(coords);
-            this.changeState(MapCreator.STATES.IDLE);
+            this.setBallLoc();
             break;
         case MapCreator.STATES.HOLE_LOC:
-            this.setHoleLoc(coords);
-            this.changeState(MapCreator.STATES.IDLE);
+            this.setHoleLoc();
+            break;
+        case MapCreator.STATES.ADD_WALL:
+            this.addWall();
+            break;
+        case MapCreator.STATES.ADD_TRAP:
+            this.addTrap();
             break;
         default:
             alert('wtf?');
@@ -107,8 +159,8 @@ MapCreator.prototype.selectedPar = function() {
 }
 
 MapCreator.prototype.randomize = function() {
-  this.mapData = MapBuilder.randomMap();
-  this.loadMap();
+    this.mapData = MapBuilder.randomMap();
+    this.loadMap();
 }
 
 

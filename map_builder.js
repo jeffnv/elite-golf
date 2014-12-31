@@ -4,14 +4,17 @@ MapBuilder = {
         var holeLoc = this._randomCoords();
         var wallCount = Math.random() * 5;
         var trapCount = Math.random() * 5;
+        var waterCount = Math.random() * 5;
         var walls = this._randomWalls(wallCount);
-        var traps = this._randomTraps(trapCount);
+        var traps = this._randomRects(trapCount);
+        var waters = this._randomRects(waterCount);
         var par = this._rand(1, 4);
         return this.buildMap({
           par: par,
           ballLoc: ballLoc,
           holeLoc: holeLoc,
           walls: walls,
+          waters: waters,
           traps: traps
         });
     },
@@ -58,17 +61,17 @@ MapBuilder = {
         }
         return walls;
     },
-    _randomTrap: function() {
+    _randomRect: function() {
         var coordSet = this._randomCoordSet();
         return {
             topLeft: { x: coordSet[0][0], y: coordSet[0][1] },
             bottomRight: { x: coordSet[1][0], y: coordSet[1][1] }
         };
     },
-    _randomTraps: function(count) {
+    _randomRects: function(count) {
         var traps = [];
         for (var i = 0; i < count; i++) {
-            traps.push(this._randomTrap());
+            traps.push(this._randomRect());
         }
         return traps;
     },
@@ -95,6 +98,8 @@ MapBuilder = {
                 x: 400,
                 y: 200
             },
+            traps: [],
+            waters: [],
             walls: [{
                 start: {
                     x: 5,
