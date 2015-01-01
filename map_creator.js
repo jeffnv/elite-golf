@@ -11,19 +11,33 @@ function MapCreator(canvas, endCallback) {
     this.parSelect = document.getElementById('par-select');
     this.addWallButton = document.getElementById('add-wall-button');
     this.addTrapButton = document.getElementById('add-trap-button');
+    this.addWaterButton = document.getElementById('add-water-button');
+    this.undoButton = document.getElementById('undo-button');
     this.state = MapCreator.STATES.IDLE;
     this.clicks = [];
+    this.undo_stack = [];
 }
 
+
 MapCreator.prototype = Object.create(GameMode.prototype);
+
+MapCreator.prototype.undoLastChange = function() {
+    if(this.clicks.length > 0){
+      this.clicks = [];
+    } else if (this.undo_stack.length > 0) {
+      this.undo_stack.pop()();
+      //undo the last operation
+      this.changeState(MapCreator.STATES.IDLE);
+    }
+}
 
 MapCreator.prototype.registerEvents = function() {
     this.addEvent(this.canvas, 'mousedown', this.handleMapClick);
     this.addEvent(this.randomizeButton, 'click', this.randomize);
     this.addEvent(this.generateButton, 'click', this.generateData);
     this.addEvent(this.loadButton, 'click', this.loadData);
-    this.addEvent(this.parSelect, 'change', this.setPar);
     this.addEvent(this.emptyButton, 'click', this.loadEmptyMap);
+    this.addEvent(this.undoButton, 'click', this.undoLastChange);
     this.addEvent(
         this.ballLocButton,
         'click',
@@ -44,10 +58,11 @@ MapCreator.prototype.registerEvents = function() {
         'click',
         this.changeState.bind(this, MapCreator.STATES.ADD_TRAP)
     );
-}
-
-MapCreator.prototype.setPar = function() {
-    this.mapData.par = this.selectedPar();
+    this.addEvent(
+        this.addWaterButton,
+        'click',
+        this.changeState.bind(this, MapCreator.STATES.ADD_WATER)
+    );
 }
 
 MapCreator.prototype.changeState = function(newState) {
@@ -66,15 +81,32 @@ MapCreator.prototype.loadMap = function() {
 }
 
 MapCreator.prototype.setBallLoc = function() {
+    var oldLoc = this.mapData.ballLoc;
+    var undoFunc = function() {
+        this.mapData.ballLoc = oldLoc;
+    }.bind(this);
+
+    this.undo_stack.push(undoFunc);
     this.mapData.ballLoc = this.clicks.pop();
     this.changeState(MapCreator.STATES.IDLE);
 }
+
 MapCreator.prototype.setHoleLoc = function() {
+    var oldLoc = this.mapData.holeLoc;
+    var undoFunc = function() {
+        this.mapData.holeLoc = oldLoc;
+    }.bind(this);
+    this.undo_stack.push(undoFunc);
     this.mapData.holeLoc = this.clicks.pop();
     this.changeState(MapCreator.STATES.IDLE);
 }
 MapCreator.prototype.addWall = function() {
+
     if (this.clicks.length == 2) {
+        var undoFunc = function() {
+            this.mapData.walls.pop();
+        }.bind(this);
+        this.undo_stack.push(undoFunc);
         this.mapData.walls.push({
             start: {
                 x: this.clicks[0].x,
@@ -86,12 +118,37 @@ MapCreator.prototype.addWall = function() {
             }
         });
         this.changeState(MapCreator.STATES.IDLE);
+
     }
 }
 
 MapCreator.prototype.addTrap = function() {
     if (this.clicks.length == 2) {
+        var undoFunc = function() {
+            this.mapData.traps.pop();
+        }.bind(this);
+        this.undo_stack.push(undoFunc);
         this.mapData.traps.push({
+            topLeft: {
+                x: this.clicks[0].x,
+                y: this.clicks[0].y
+            },
+            bottomRight: {
+                x: this.clicks[1].x,
+                y: this.clicks[1].y
+            }
+        });
+        this.changeState(MapCreator.STATES.IDLE);
+    }
+}
+
+MapCreator.prototype.addWater = function() {
+    if (this.clicks.length == 2) {
+        var undoFunc = function() {
+            this.mapData.waters.pop();
+        }.bind(this);
+        this.undo_stack.push(undoFunc);
+        this.mapData.waters.push({
             topLeft: {
                 x: this.clicks[0].x,
                 y: this.clicks[0].y
@@ -110,7 +167,8 @@ MapCreator.STATES = {
     BALL_LOC: 1,
     HOLE_LOC: 2,
     ADD_TRAP: 3,
-    ADD_WALL: 4
+    ADD_WALL: 4,
+    ADD_WATER: 5
 }
 MapCreator.prototype.handleMapClick = function(event) {
     var coords = {
@@ -134,6 +192,9 @@ MapCreator.prototype.handleMapClick = function(event) {
         case MapCreator.STATES.ADD_TRAP:
             this.addTrap();
             break;
+        case MapCreator.STATES.ADD_WATER:
+            this.addWater();
+            break;
         default:
             alert('wtf?');
             break;
@@ -150,6 +211,7 @@ MapCreator.prototype.loadData = function() {
 
 MapCreator.prototype.generateData = function() {
     var dataBox = document.getElementById('map-data');
+    this.map.mapData.par = this.selectedPar();
     dataBox.innerText = this.map.toJSON();
 }
 
