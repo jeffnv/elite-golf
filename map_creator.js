@@ -178,7 +178,7 @@ MapCreator.prototype.handleMapClick = function(event) {
     this.clicks.push(coords);
     switch (this.state) {
         case MapCreator.STATES.IDLE:
-            alert('idle');
+            alert('click a button below to add features');
             break;
         case MapCreator.STATES.BALL_LOC:
             this.setBallLoc();
