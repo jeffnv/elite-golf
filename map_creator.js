@@ -25,6 +25,7 @@ MapCreator.prototype.undoLastChange = function() {
     if(this.clicks.length > 0){
       this.clicks = [];
     } else if (this.undo_stack.length > 0) {
+      //stack of migrations
       this.undo_stack.pop()();
       //undo the last operation
       this.changeState(MapCreator.STATES.IDLE);
