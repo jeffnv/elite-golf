@@ -27,6 +27,14 @@ ScoreCard = {
         });
         return total;
     },
+    totalPar: function() {
+        var nodes = ScoreCard.parNodes();
+        var total = 0;
+        nodes.forEach(function(parNode) {
+            total += parseInt(parNode.innerText) || 0;
+        });
+        return total;
+    },
     _findNodes: function(id) {
         return document.getElementById(id).children;
     }

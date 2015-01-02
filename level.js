@@ -20,7 +20,19 @@ Level.prototype.playNextMap = function() {
     if (this.mapIndex < MAPS.length) {
         this.loadMap();
     } else {
-        alert('game over!');
+        var score = ScoreCard.totalScore();
+        var par = ScoreCard.totalPar();
+        var diff = Math.abs(score - par);
+        var message = "Game Over! Your score: " + score + ". ";
+        if(score > par){
+          message += "That's " + diff + " over par. Keep practicing.";
+        } else if (score < par){
+          message += "That's " + diff + " UNDER par. MY GOD YOU ARE GOOD.";
+        } else {
+          message += "That's par! Good job there, bud!"
+        }
+        alert(message);
+
         this.changeGameMode(GolfStates.WELCOME_SCREEN);
     }
 }
