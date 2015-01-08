@@ -2,6 +2,7 @@
 <title>Elite Golf</title>
 <link rel="SHORTCUT ICON" href="favicon.png">
 <link rel='stylesheet' href='style.css' type="text/css">
+<script src="game_state_machine.js"></script>
 <script src="game_item.js"></script>
 <script src="elite_golf.js"></script>
 <script src="game_mode.js"></script>
@@ -19,41 +20,14 @@
 <script src="score_card.js"></script>
 <script src="sand.js"></script>
 <script src="map_creator.js"></script>
+<script src="golf_map_creator.js"></script>
 <script src="water.js"></script>
 
 </head>
 
 <body>
   <h1>ELITE GOLF</h1>
-  <canvas width="500" height="500"></canvas>
-  <div id="game-tabs">
-    <div id="map-creator-tab">
-      <button id="randomizer-button">Randomize Map</button>
-      <button id="empty-button">Empty Map</button>
-      </br>
-      <button id="undo-button">Undo/Cancel</button>
-      <button id="ball-loc-button">Ball Location</button>
-      <button id="hole-loc-button">Hole Location</button>
-      <button id="add-wall-button">Add Wall</button>
-      <button id="add-trap-button">Add Sand Trap</button>
-      <button id="add-water-button">Add Water Hazard</button>
-      </br>
-      <label for='par-select'>Par</label><select id="par-select">
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
-        <option value=4>4</option>
-        <option value=5>5</option>
-        <option value=5>6</option>
-        <option value=5>7</option>
-        <option value=5>8</option>
-      </select>
-      </br>
-      <button id='generate-button'>Generate Map Data</button>
-      <textarea id='map-data'></textarea>
-      <button id='load-button'>Load Map Data</button>
-      <textarea id='load-data'></textarea>
-    </div>
+  <canvas id="golf-game-canvas" width="500"  height="500"></canvas>
     <div id="play-tab">
       <table id="score">
         <tr>
@@ -94,11 +68,41 @@
         </tr>
       </table>
     </div>
-  </div>
+  <canvas id="map-creator-canvas" width="500"  height="500"></canvas>
+    <div id="map-creator-tab">
+      <button id="randomizer-button">Randomize Map</button>
+      <button id="empty-button">Empty Map</button>
+      </br>
+      <button id="undo-button">Undo/Cancel</button>
+      <button id="ball-loc-button">Ball Location</button>
+      <button id="hole-loc-button">Hole Location</button>
+      <button id="add-wall-button">Add Wall</button>
+      <button id="add-trap-button">Add Sand Trap</button>
+      <button id="add-water-button">Add Water Hazard</button>
+      </br>
+      <label for='par-select'>Par</label><select id="par-select">
+        <option value=1>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+        <option value=5>5</option>
+        <option value=5>6</option>
+        <option value=5>7</option>
+        <option value=5>8</option>
+      </select>
+      </br>
+      <button id='generate-button'>Generate Map Data</button>
+      <textarea id='map-data'></textarea>
+      <button id='load-button'>Load Map Data</button>
+      <textarea id='load-data'></textarea>
+    </div>
   <script>
-    var canvas = document.getElementsByTagName("canvas")[0];
-    var g = new Golf(canvas);
+    var canvas = document.getElementById("golf-game-canvas");
+    var game = new GolfGame(canvas);
     g.run();
+    var canvas = document.getElementById("map-creator-canvas");
+    var map = new GolfMapCreator(canvas);
+    map.run();
   </script>
 </body>
 </html>

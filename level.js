@@ -3,8 +3,8 @@ function Level(canvas, changeGameMode) {
     this.loadPar();
     this.mapIndex = 0;
     this.loadMap();
-    this.tabID = "play-tab";
 }
+Level.FPS = 60;
 
 Level.prototype = Object.create(GameMode.prototype);
 
@@ -33,7 +33,7 @@ Level.prototype.playNextMap = function() {
         }
         alert(message);
 
-        this.changeGameMode(GolfStates.WELCOME_SCREEN);
+        this.changeGameMode();
     }
 }
 
@@ -59,25 +59,15 @@ Level.prototype.logStroke = function(){
 }
 
 Level.prototype.startAction = function() {
-    var that = this;
-    var frameCount = 0;
-    var intervalCallback = function() {
-        if (SLOW_MODE) {
-            frameCount++;
-            if (frameCount >= SLOWNESS_FACTOR) {
-                frameCount = 0;
-                that.tick();
-            }
-        } else {
-            that.tick();
-        }
-    }
-    this.intervalID = setInterval(intervalCallback, 1000 / FPS);
+    this.intervalID = setInterval(
+        this.tick.bind(this), 
+        1000 / Level.FPS
+    );
 }
 
 Level.prototype.registerEvents = function() {
     this.boundMouseHandler = this.handleMouseDown.bind(this);
-    canvas.addEventListener(
+    this.canvas.addEventListener(
         'mousedown',
         this.boundMouseHandler,
         false
