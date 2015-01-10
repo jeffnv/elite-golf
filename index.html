@@ -2,107 +2,46 @@
 <title>Elite Golf</title>
 <link rel="SHORTCUT ICON" href="favicon.png">
 <link rel='stylesheet' href='style.css' type="text/css">
-<script src="game_state_machine.js"></script>
-<script src="game_item.js"></script>
-<script src="elite_golf.js"></script>
-<script src="game_mode.js"></script>
-<script src="map_builder.js"></script>
-<script src="maps.js"></script>
-<script src="golf_map.js"></script>
-<script src="hole.js"></script>
-<script src="level.js"></script>
-<script src="ball.js"></script>
-<script src="wall.js"></script>
-<script src="golf_math.js"></script>
-<script src="golf_draw.js"></script>
-<script src="vector.js"></script>
-<script src="welcome_screen.js"></script>
-<script src="score_card.js"></script>
-<script src="sand.js"></script>
-<script src="map_creator.js"></script>
-<script src="golf_map_creator.js"></script>
-<script src="water.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="lib/base_classes/game_state_machine.js"></script>
+<script src="lib/base_classes/game_item.js"></script>
+<script src="lib/base_classes/game_mode.js"></script>
+<script src="lib/base_classes/map_builder.js"></script>
+<script src="lib/base_classes/golf_math.js"></script>
+<script src="lib/base_classes/golf_draw.js"></script>
+<script src="lib/base_classes/vector.js"></script>
+<script src="lib/game_modes/golf_map.js"></script>
+<script src="lib/game_modes/level.js"></script>
+<script src="lib/game_modes/map_creator.js"></script>
+<script src="lib/game_modes/maps.js"></script>
+<script src="lib/game_modes/score_card.js"></script>
+<script src="lib/game_modes/welcome_screen.js"></script>
+<script src="lib/items/hole.js"></script>
+<script src="lib/items/ball.js"></script>
+<script src="lib/items/wall.js"></script>
+<script src="lib/items/sand.js"></script>
+<script src="lib/items/water.js"></script>
+<script src="lib/elite_map_creator.js"></script>
+<script src="lib/elite_golf.js"></script>
 
 </head>
 
 <body>
   <h1>ELITE GOLF</h1>
-  <canvas id="golf-game-canvas" width="500"  height="500"></canvas>
-    <div id="play-tab">
-      <table id="score">
-        <tr>
-          <th></th>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
-          <th>6</th>
-          <th>7</th>
-          <th>8</th>
-          <th>9</th>
-        </tr>
-        <tr id="par">
-          <td>Par</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr id="strokes">
-          <td>Strokes</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-  <canvas id="map-creator-canvas" width="500"  height="500"></canvas>
-    <div id="map-creator-tab">
-      <button id="randomizer-button">Randomize Map</button>
-      <button id="empty-button">Empty Map</button>
-      </br>
-      <button id="undo-button">Undo/Cancel</button>
-      <button id="ball-loc-button">Ball Location</button>
-      <button id="hole-loc-button">Hole Location</button>
-      <button id="add-wall-button">Add Wall</button>
-      <button id="add-trap-button">Add Sand Trap</button>
-      <button id="add-water-button">Add Water Hazard</button>
-      </br>
-      <label for='par-select'>Par</label><select id="par-select">
-        <option value=1>1</option>
-        <option value=2>2</option>
-        <option value=3>3</option>
-        <option value=4>4</option>
-        <option value=5>5</option>
-        <option value=5>6</option>
-        <option value=5>7</option>
-        <option value=5>8</option>
-      </select>
-      </br>
-      <button id='generate-button'>Generate Map Data</button>
-      <textarea id='map-data'></textarea>
-      <button id='load-button'>Load Map Data</button>
-      <textarea id='load-data'></textarea>
-    </div>
+  <div id="golf-game"></div>
+  <h1>ELITE MAP CREATOR</h1>
+  <div id="golf-map"></div>
   <script>
-    var canvas = document.getElementById("golf-game-canvas");
-    var game = new GolfGame(canvas);
+    var $gameEl = $('#golf-game');
+    var game = new EliteGolf($gameEl);
     game.run();
-    var canvas = document.getElementById("map-creator-canvas");
-    var map = new GolfMapCreator(canvas);
-    map.run();
+
+    $gameEl = $('#golf-map');
+    game = new EliteMapCreator($gameEl);
+    game.run();
+    // var canvas = document.getElementById("map-creator-canvas");
+    // var map = new EliteMapCreator(canvas);
+    // map.run();
   </script>
 </body>
 </html>
