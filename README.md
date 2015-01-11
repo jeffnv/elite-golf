@@ -1,5 +1,4 @@
 #       [ELITE GOLF](http://fiddler.io/elite-golf)
-#       ==========
 
                       |H|
                       |H|
