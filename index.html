@@ -6,10 +6,10 @@
 <script src="lib/base_classes/game_state_machine.js"></script>
 <script src="lib/base_classes/game_item.js"></script>
 <script src="lib/base_classes/game_mode.js"></script>
-<script src="lib/base_classes/map_builder.js"></script>
-<script src="lib/base_classes/golf_math.js"></script>
-<script src="lib/base_classes/golf_draw.js"></script>
-<script src="lib/base_classes/vector.js"></script>
+<script src="lib/util/map_builder.js"></script>
+<script src="lib/util/golf_math.js"></script>
+<script src="lib/util/golf_draw.js"></script>
+<script src="lib/util/vector.js"></script>
 <script src="lib/game_modes/golf_map.js"></script>
 <script src="lib/game_modes/level.js"></script>
 <script src="lib/game_modes/map_creator.js"></script>
@@ -30,8 +30,9 @@
   <h1>ELITE GOLF</h1>
   <div id="golf-game"></div>
   <h1>ELITE MAP CREATOR</h1>
-  <div id="golf-map"></div>
+  <h3>map data returned goes here</h3>
   <textarea id="map-json"></textarea>
+  <div id="golf-map"></div>
   <script>
     var $gameEl = $('#golf-game');
     var gameOverCallback = function(results){
@@ -53,14 +54,10 @@
 
     $gameEl = $('#golf-map');
     var mapCreatorOverCallback = function(results){
-      debugger
       $('#map-json').text(results.mapJSON);
     };
     game = new EliteMapCreator($gameEl, mapCreatorOverCallback);
     game.run();
-    // var canvas = document.getElementById("map-creator-canvas");
-    // var map = new EliteMapCreator(canvas);
-    // map.run();
   </script>
 </body>
 </html>
