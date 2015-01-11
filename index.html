@@ -31,6 +31,7 @@
   <div id="golf-game"></div>
   <h1>ELITE MAP CREATOR</h1>
   <div id="golf-map"></div>
+  <textarea id="map-json"></textarea>
   <script>
     var $gameEl = $('#golf-game');
     var gameOverCallback = function(results){
@@ -51,7 +52,9 @@
     game.run();
 
     $gameEl = $('#golf-map');
-    var mapCreatorOverCallback = function(){
+    var mapCreatorOverCallback = function(results){
+      debugger
+      $('#map-json').text(results.mapJSON);
     };
     game = new EliteMapCreator($gameEl, mapCreatorOverCallback);
     game.run();
