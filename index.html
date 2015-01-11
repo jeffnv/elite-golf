@@ -33,11 +33,27 @@
   <div id="golf-map"></div>
   <script>
     var $gameEl = $('#golf-game');
-    var game = new EliteGolf($gameEl);
+    var gameOverCallback = function(results){
+        var score = results.score;
+        var par = results.par;
+        var diff = Math.abs(score - par);
+        var message = "Game Over! Your score: " + score + ". ";
+        if (score > par) {
+            message += "That's " + diff + " over par. Keep practicing.";
+        } else if (score < par) {
+            message += "That's " + diff + " UNDER par. MY GOD YOU ARE GOOD.";
+        } else {
+            message += "That's par! Good job there, bud!"
+        }
+        alert(message);
+    };
+    var game = new EliteGolf($gameEl, gameOverCallback);
     game.run();
 
     $gameEl = $('#golf-map');
-    game = new EliteMapCreator($gameEl);
+    var mapCreatorOverCallback = function(){
+    };
+    game = new EliteMapCreator($gameEl, mapCreatorOverCallback);
     game.run();
     // var canvas = document.getElementById("map-creator-canvas");
     // var map = new EliteMapCreator(canvas);
