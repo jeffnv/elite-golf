@@ -18,9 +18,16 @@
 ## Features
 * golf
 
-## TODO
-* maximum hit vector
-* add sand and water hazards
-* level creator
-* rails backend to keep score
-
+## Usage
+```html
+  <div id="golf-game"></div>
+  <script>
+    var $gameEl = $('#golf-game');
+    var gameOverCallback = function(results){
+        var score = results.score;
+        var par = results.par;
+        alert('par: ' + par + " score: " + score);
+    };
+    var game = new EliteGolf($gameEl, gameOverCallback);
+  </script>
+```
