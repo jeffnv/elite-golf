@@ -1,0 +1,29 @@
+{
+  "name": "elite-golf",
+  "version": "1.0.0",
+  "description": "Golf",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+   "webpack-dev": "webpack --mode=development", 
+   "webpack-prod": "webpack --mode=production", 
+   "webpack-watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffnv/elite-golf.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeffnv/elite-golf/issues"
+  },
+  "homepage": "https://github.com/jeffnv/elite-golf#readme",
+  "devDependencies": {
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
