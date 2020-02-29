@@ -1,4 +1,4 @@
-#       [ELITE GOLF](http://golf.fiddler.io/)
+# [ELITE GOLF](http://golf.fiddler.io/)
 
                       |H|
                       |H|
@@ -15,18 +15,20 @@
                                       `"""""""""""`
 
 ## Features
-* golf
+
+- golf
 
 ## Usage
+
 ```html
-  <div id="golf-game"></div>
-  <script>
-    var $gameEl = $('#golf-game');
-    var gameOverCallback = function(results){
-        var score = results.score;
-        var par = results.par;
-        alert('par: ' + par + " score: " + score);
-    };
-    var game = new EliteGolf($gameEl, gameOverCallback);
-  </script>
+<div id="golf-game"></div>
+<script>
+  const $gameEl = $("#golf-game");
+  const gameOverCallback = function(results) {
+    const score = results.score;
+    const par = results.par;
+    alert("par: " + par + " score: " + score);
+  };
+  const game = new EliteGolf($gameEl, gameOverCallback);
+</script>
 ```

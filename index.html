@@ -15,12 +15,12 @@
   <textarea id="map-json"></textarea>
   <div id="golf-map"></div>
   <script>
-    var $gameEl = $('#golf-game');
-    var gameOverCallback = function(results){
-        var score = results.score;
-        var par = results.par;
-        var diff = Math.abs(score - par);
-        var message = "Game Over! Your score: " + score + ". ";
+    const $gameEl = $('#golf-game');
+    const gameOverCallback = function(results){
+        const score = results.score;
+        const par = results.par;
+        const diff = Math.abs(score - par);
+        const message = "Game Over! Your score: " + score + ". ";
         if (score > par) {
             message += "That's " + diff + " over par. Keep practicing.";
         } else if (score < par) {
@@ -30,15 +30,15 @@
         }
         alert(message);
     };
-    var game = new EliteGolf($gameEl, gameOverCallback);
+    const game = new EliteGolf($gameEl, gameOverCallback);
     game.run();
 
-    $gameEl = $('#golf-map');
-    var mapCreatorOverCallback = function(results){
+    $creatorEl = $('#golf-map');
+    const mapCreatorOverCallback = function(results){
       $('#map-json').text(results.mapJSON);
     };
-    game = new EliteMapCreator($gameEl, mapCreatorOverCallback);
-    game.run();
+    const creator = new EliteMapCreator($creatorEl, mapCreatorOverCallback);
+    creator.run();
   </script>
 </body>
 </html>
