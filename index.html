@@ -15,7 +15,7 @@
   <textarea id="map-json"></textarea>
   <div id="golf-map"></div>
   <script>
-    const $gameEl = $('#golf-game');
+    const gameEl = document.getElementById('golf-game');
     const gameOverCallback = function(results){
         const score = results.score;
         const par = results.par;
@@ -30,14 +30,15 @@
         }
         alert(message);
     };
-    const game = new EliteGolf($gameEl, gameOverCallback);
+    const game = new EliteGolf(gameEl, gameOverCallback);
     game.run();
 
-    $creatorEl = $('#golf-map');
-    const mapCreatorOverCallback = function(results){
+    // $creatorEl = $('#golf-map');
+    const creatorEl = document.getElementById('golf-map');
+    const mapCreatorOverCallback = function (results) {
       $('#map-json').text(results.mapJSON);
     };
-    const creator = new EliteMapCreator($creatorEl, mapCreatorOverCallback);
+    const creator = new EliteMapCreator(creatorEl, mapCreatorOverCallback);
     creator.run();
   </script>
 </body>
